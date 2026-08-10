@@ -1,9 +1,1 @@
-<Project>
-    <PropertyGroup>
-        <!-- Enable local DLLs for IntelliSense -->
-        <UseLocalDlls>true</UseLocalDlls>
-        
-        <!-- Set RimWorld directory -->
-        <RimWorldDir>D:\SteamLibrary\steamapps\common\RimWorld</RimWorldDir>
-    </PropertyGroup>
-</Project>
+<Project><PropertyGroup><BaseOutputPath>$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimTalk-Quests\bin\</BaseOutputPath><BaseIntermediateOutputPath>$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimTalk-Quests\obj\</BaseIntermediateOutputPath></PropertyGroup></Project>

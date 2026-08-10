@@ -10,8 +10,11 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 
         <RimWorldDir Condition=" '$(RimWorldDir)' == '' ">$(RIMWORLD_DIR)</RimWorldDir>
+        <RimWorldWorkshopDir Condition=" '$(RimWorldWorkshopDir)' == '' ">$(RIMWORLD_WORKSHOP_DIR)</RimWorldWorkshopDir>
 
-        <OutputPath>$(GameVersion)/Assemblies</OutputPath>
+        <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimTalk-Quests\bin\</BaseOutputPath>
+        <BaseIntermediateOutputPath Condition=" '$(BaseIntermediateOutputPath)' == '' ">$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimTalk-Quests\obj\</BaseIntermediateOutputPath>
+        <OutputPath>$(BaseOutputPath)$(Configuration)\</OutputPath>
         <ModFolderName>RimTalk-Quests</ModFolderName>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
@@ -63,9 +66,7 @@
 
     <!-- Compute paths for RimTalk assembly references -->
     <PropertyGroup Condition=" '$(UseLocalDlls)' == 'true' AND '$(RimWorldDir)' != '' ">
-        <!-- RimWorld is in: steamapps/common/RimWorld, Workshop is in: steamapps/workshop/content/... -->
-        <SteamAppsDir>$([System.IO.Path]::GetFullPath('$(RimWorldDir)\..\..'))</SteamAppsDir>
-        <WorkshopRimTalkDll>$(SteamAppsDir)\workshop\content\294100\3551203752\$(GameVersion)\Assemblies\RimTalk.dll</WorkshopRimTalkDll>
+        <WorkshopRimTalkDll>$(RimWorldWorkshopDir)\3551203752\$(GameVersion)\Assemblies\RimTalk.dll</WorkshopRimTalkDll>
         <LocalRimTalkDll>$(RimWorldDir)\Mods\RimTalk\$(GameVersion)\Assemblies\RimTalk.dll</LocalRimTalkDll>
         
         <!-- Allow override via RimTalkDll parameter -->
