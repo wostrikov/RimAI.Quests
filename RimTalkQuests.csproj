@@ -69,7 +69,9 @@
         <WorkshopRimTalkDll>$(RimWorldWorkshopDir)\3551203752\$(GameVersion)\Assemblies\RimTalk.dll</WorkshopRimTalkDll>
         <LocalRimTalkDll>$(RimWorldDir)\Mods\RimTalk\$(GameVersion)\Assemblies\RimTalk.dll</LocalRimTalkDll>
         
-        <!-- Allow override via RimTalkDll parameter -->
+        <!-- Allow the central build to pass the active local provider directory. -->
+        <RimTalkDllPath Condition=" '$(RimTalkDir)' != '' ">$(RimTalkDir)\$(GameVersion)\Assemblies\RimTalk.dll</RimTalkDllPath>
+        <!-- Retain the direct-DLL override for standalone builds. -->
         <RimTalkDllPath Condition=" '$(RimTalkDll)' != '' ">$(RimTalkDll)</RimTalkDllPath>
         <RimTalkDllPath Condition=" '$(RimTalkDll)' == '' AND Exists('$(WorkshopRimTalkDll)') ">$(WorkshopRimTalkDll)</RimTalkDllPath>
         <RimTalkDllPath Condition=" '$(RimTalkDll)' == '' AND !Exists('$(WorkshopRimTalkDll)') AND Exists('$(LocalRimTalkDll)') ">$(LocalRimTalkDll)</RimTalkDllPath>

@@ -30,35 +30,16 @@ namespace RimTalkQuests.Services.Streaming
             Action<string> onTextChunkReceived
         )
         {
-            var settings = Settings.Get();
-            var config = settings.GetActiveConfig();
-            var model = settings.GetCurrentModel();
+            var prefixMessages = new List<(Role role, string message)>();
+            if (!string.IsNullOrWhiteSpace(instruction))
+                prefixMessages.Add((Role.System, instruction));
 
-            string apiKey = config?.ApiKey ?? "";
-
-            // Resolve base URL: registered providers store their URL in the registry,
-            // while Local/Custom providers use config.BaseUrl entered by the user.
-            string baseUrl;
-            Dictionary<string, string> extraHeaders = null;
-            if (AIProviderRegistry.Defs.TryGetValue(config.Provider, out var def))
-            {
-                baseUrl = def.EndpointUrl;
-                extraHeaders = def.ExtraHeaders;
-            }
-            else
-            {
-                baseUrl = config?.BaseUrl ?? "";
-            }
-
-            return await StreamAsync(
-                baseUrl,
-                model,
-                apiKey,
-                extraHeaders,
-                instruction,
-                messages,
-                onTextChunkReceived
-            );
+            // RimTalk owns provider, credential, model and request-adapter semantics.
+            // Its official OpenAI adapter currently returns one complete response,
+            // which is still a valid text chunk for the quest's progressive UI.
+            var payload = await Client.GetChatCompletionAsync(prefixMessages, messages);
+            SafeChunkCallback(onTextChunkReceived)(payload?.Response);
+            return payload;
         }
 
         /// <summary>

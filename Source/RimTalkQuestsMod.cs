@@ -146,6 +146,11 @@ namespace RimTalkQuests
                 true
             );
             Scribe_Values.Look(ref customQuestInstruction, "customQuestInstruction", "");
+            if (Scribe.mode == LoadSaveMode.PostLoadInit &&
+                customQuestInstruction == Constant.GetLegacyEnglishQuestInstruction())
+            {
+                customQuestInstruction = Constant.GetDefaultQuestInstruction();
+            }
         }
     }
 }
