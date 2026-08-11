@@ -4,7 +4,7 @@ namespace RimTalkQuests
 {
     public static class Constant
     {
-        public static string GetLegacyEnglishQuestInstruction()
+        public static string GetLegacyEnglishQuestInstruction(string languageName)
         {
             return $@"You are enhancing a RimWorld quest description.
 Your task is NOT to summarize or rewrite mechanically,
@@ -17,7 +17,7 @@ Writing goals:
 4. Match RimWorld's restrained, grounded sci-fi tone (no epic fantasy).
 
 Constraints:
-- Write in {LanguageDatabase.activeLanguage.info.friendlyNameNative}
+- Write in {languageName}
 - Write 2–3 short paragraphs.
 - Do NOT invent new gameplay mechanics or outcomes.
 - Do NOT contradict the original quest text.
@@ -32,6 +32,8 @@ but do not repeat raw data (dates, stats) directly.";
 
         public static string GetDefaultQuestInstruction()
         {
+            string languageName = LanguageDatabase.activeLanguage?.info?.friendlyNameNative
+                ?? "Українська";
             return $@"Ти доповнюєш опис завдання RimWorld.
 Твоє завдання — НЕ підсумовувати й не переписувати текст механічно,
 а додати йому оповідної ваги та неявної мотивації.
@@ -43,7 +45,7 @@ but do not repeat raw data (dates, stats) directly.";
 4. Дотримуйся стриманого, приземленого науково-фантастичного тону RimWorld (без епічного фентезі).
 
 Обмеження:
-- Пиши мовою: {LanguageDatabase.activeLanguage.info.friendlyNameNative}.
+- Пиши мовою: {languageName}.
 - Напиши 2–3 короткі абзаци.
 - НЕ вигадуй нових ігрових механік або наслідків.
 - НЕ супереч оригінальному тексту завдання.
