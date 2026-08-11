@@ -150,6 +150,7 @@ namespace RimTalkQuests
                 customQuestInstruction == Constant.GetLegacyEnglishQuestInstruction("Українська"))
             {
                 customQuestInstruction = Constant.GetDefaultQuestInstruction();
+                LongEventHandler.ExecuteWhenFinished(Write);
             }
         }
     }
