@@ -1,5 +1,7 @@
 using System;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -146,11 +148,21 @@ namespace RimTalkQuests
                 true
             );
             Scribe_Values.Look(ref customQuestInstruction, "customQuestInstruction", "");
-            if (Scribe.mode == LoadSaveMode.PostLoadInit &&
-                customQuestInstruction == Constant.GetLegacyEnglishQuestInstruction("Українська"))
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && IsUnchangedLegacyDefault(customQuestInstruction))
             {
                 customQuestInstruction = Constant.GetDefaultQuestInstruction();
                 LongEventHandler.ExecuteWhenFinished(Write);
+            }
+        }
+
+        private static bool IsUnchangedLegacyDefault(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return false;
+            string normalized = value.Replace("\r\n", "\n").Trim();
+            using (var sha = SHA256.Create())
+            {
+                string hash = BitConverter.ToString(sha.ComputeHash(Encoding.UTF8.GetBytes(normalized))).Replace("-", "");
+                return string.Equals(hash, "EA578CB442CB6F7675B5815147B859CAD25A69D1362A15F0D068AC2BAEB6E36D", StringComparison.Ordinal);
             }
         }
     }
