@@ -12,6 +12,6 @@
     <RimTalkQuests.Settings.CustomQuestInstruction.Desc>Leave empty to use default. This will be appended to RimTalk's base instruction.</RimTalkQuests.Settings.CustomQuestInstruction.Desc>
     <RimTalkQuests.Settings.ClearCache>Clear Cache</RimTalkQuests.Settings.ClearCache>
     <RimTalkQuests.Settings.CacheCleared>Quest description cache cleared.</RimTalkQuests.Settings.CacheCleared>
-    <RimTalkQuests.Settings.UsesRimTalkConfig>RimTalk-Quests uses your existing RimTalk AI configuration.</RimTalkQuests.Settings.UsesRimTalkConfig>
+    <RimTalkQuests.Settings.UsesRimTalkConfig>RimAI.Quests uses the shared RimAI text AI configuration.</RimTalkQuests.Settings.UsesRimTalkConfig>
     <RimTalkQuests.Settings.CurrentlyProcessing>Currently processing: {0} quests</RimTalkQuests.Settings.CurrentlyProcessing>
 </LanguageData>

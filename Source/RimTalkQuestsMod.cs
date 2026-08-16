@@ -60,7 +60,7 @@ namespace RimTalkQuests
 
         public override string SettingsCategory()
         {
-            return Content?.Name ?? "RimTalk - Quests";
+            return Content?.Name ?? "RimAI.Quests";
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
