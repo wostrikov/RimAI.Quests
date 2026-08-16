@@ -5,8 +5,8 @@
         <OutputType>Library</OutputType>
         <TargetFramework>net48</TargetFramework>
         <PlatformTarget>x64</PlatformTarget>
-        <RootNamespace>RimTalkQuests</RootNamespace>
-        <AssemblyName>RimTalkQuests</AssemblyName>
+        <RootNamespace>Ustas.RimAI.Quests</RootNamespace>
+        <AssemblyName>RimAI.Quests</AssemblyName>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 
         <RimWorldDir Condition=" '$(RimWorldDir)' == '' ">$(RIMWORLD_DIR)</RimWorldDir>
@@ -15,7 +15,7 @@
         <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimTalk-Quests\bin\</BaseOutputPath>
         <BaseIntermediateOutputPath Condition=" '$(BaseIntermediateOutputPath)' == '' ">$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimTalk-Quests\obj\</BaseIntermediateOutputPath>
         <OutputPath>$(BaseOutputPath)$(Configuration)\</OutputPath>
-        <ModFolderName>RimTalk-Quests</ModFolderName>
+        <ModFolderName>RimAI.Quests</ModFolderName>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
@@ -41,6 +41,9 @@
     <ItemGroup>
         <PackageReference Include="Lib.Harmony.Ref" Version="2.*" PrivateAssets="All"/>
         <ProjectReference Include="..\RimAI.Core\src\RimAI.Core\RimAI.Core.csproj">
+            <Private>false</Private>
+        </ProjectReference>
+        <ProjectReference Include="..\RimAI.Communication\RimTalk.csproj">
             <Private>false</Private>
         </ProjectReference>
     </ItemGroup>
@@ -69,11 +72,11 @@
 
     <!-- Compute paths for RimTalk assembly references -->
     <PropertyGroup Condition=" '$(UseLocalDlls)' == 'true' AND '$(RimWorldDir)' != '' ">
-        <WorkshopRimTalkDll>$(RimWorldWorkshopDir)\3551203752\$(GameVersion)\Assemblies\RimTalk.dll</WorkshopRimTalkDll>
-        <LocalRimTalkDll>$(RimWorldDir)\Mods\RimTalk\$(GameVersion)\Assemblies\RimTalk.dll</LocalRimTalkDll>
+        <WorkshopRimTalkDll>$(RimWorldWorkshopDir)\3551203752\$(GameVersion)\Assemblies\RimAI.Communication.dll</WorkshopRimTalkDll>
+        <LocalRimTalkDll>$(RimWorldDir)\Mods\RimTalk\$(GameVersion)\Assemblies\RimAI.Communication.dll</LocalRimTalkDll>
         
         <!-- Allow the central build to pass the active local provider directory. -->
-        <RimTalkDllPath Condition=" '$(RimTalkDir)' != '' ">$(RimTalkDir)\$(GameVersion)\Assemblies\RimTalk.dll</RimTalkDllPath>
+        <RimTalkDllPath Condition=" '$(RimTalkDir)' != '' ">$(RimTalkDir)\$(GameVersion)\Assemblies\RimAI.Communication.dll</RimTalkDllPath>
         <!-- Retain the direct-DLL override for standalone builds. -->
         <RimTalkDllPath Condition=" '$(RimTalkDll)' != '' ">$(RimTalkDll)</RimTalkDllPath>
         <RimTalkDllPath Condition=" '$(RimTalkDll)' == '' AND Exists('$(WorkshopRimTalkDll)') ">$(WorkshopRimTalkDll)</RimTalkDllPath>
@@ -90,7 +93,7 @@
 
     <!-- Warning if RimTalk not found -->
     <Target Name="CheckRimTalkReference" BeforeTargets="BeforeBuild" Condition=" '$(UseLocalDlls)' == 'true' AND '$(RimWorldDir)' != '' AND '$(RimTalkDllPath)' == '' ">
-        <Warning Text="RimTalk.dll not found! Check Workshop (3551203752) or local Mods folder, or use -RimTalkPath parameter" />
+        <Warning Text="RimAI.Communication.dll not found! Check Workshop (3551203752) or local Mods folder, or use -RimTalkPath parameter" />
     </Target>
 
     <!-- Exclude ref directory from compilation -->

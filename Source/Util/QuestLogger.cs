@@ -1,10 +1,10 @@
 using Verse;
 
-namespace RimTalkQuests.Util;
+namespace Ustas.RimAI.Quests.Util;
 
 public static class QuestLogger
 {
-    private const string ModTag = "[RimTalk-Quests]";
+    private const string ModTag = "[RimAI.Quests]";
 
     public static void Message(object message)
     {

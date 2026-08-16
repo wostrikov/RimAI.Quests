@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using RimWorld;
 using RimWorld.Planet;
 using RimWorld.QuestGen;
-using RimTalk.Client;
-using RimTalk.Data;
-using RimTalk.Util;
-using RimTalkQuests.Services.Streaming;
+using Ustas.RimAI.Communication.Client;
+using Ustas.RimAI.Communication.Data;
+using Ustas.RimAI.Communication.Util;
+using Ustas.RimAI.Quests.Services.Streaming;
 using Verse;
 
-namespace RimTalkQuests.Services
+namespace Ustas.RimAI.Quests.Services
 {
     /// <summary>
     /// Service for generating AI-powered quest descriptions.
@@ -51,7 +51,7 @@ namespace RimTalkQuests.Services
                 if (Prefs.DevMode)
                 {
                     Log.Message(
-                        $"[RimTalk-Quests] Generating AI description for quest: {quest.name}"
+                        $"[RimAI.Quests] Generating AI description for quest: {quest.name}"
                     );
                 }
 
@@ -61,11 +61,11 @@ namespace RimTalkQuests.Services
 
                 if (Prefs.DevMode)
                 {
-                    var config = RimTalk.Settings.Get().GetActiveConfig();
+                    var config = Ustas.RimAI.Communication.Settings.Get().GetActiveConfig();
                     var model = config?.SelectedModel ?? "Unknown";
-                    Log.Message($"[RimTalk-Quests] Using model: {model}");
-                    Log.Message($"[RimTalk-Quests] Instruction:\n{instruction}");
-                    Log.Message($"[RimTalk-Quests] Prompt:\n{prompt}");
+                    Log.Message($"[RimAI.Quests] Using model: {model}");
+                    Log.Message($"[RimAI.Quests] Instruction:\n{instruction}");
+                    Log.Message($"[RimAI.Quests] Prompt:\n{prompt}");
                 }
 
                 // Store original description
@@ -76,7 +76,7 @@ namespace RimTalkQuests.Services
 
                 if (Prefs.DevMode && result != null)
                 {
-                    Log.Message($"[RimTalk-Quests] AI Response (processed):\n{result}");
+                    Log.Message($"[RimAI.Quests] AI Response (processed):\n{result}");
                 }
 
                 // Streaming already updated the description in real-time
@@ -84,7 +84,7 @@ namespace RimTalkQuests.Services
                 if (result != null)
                 {
                     if (Prefs.DevMode)
-                        Log.Message($"[RimTalk-Quests] Successfully enhanced quest: {quest.name}");
+                        Log.Message($"[RimAI.Quests] Successfully enhanced quest: {quest.name}");
                 }
                 else
                 {
@@ -94,14 +94,14 @@ namespace RimTalkQuests.Services
                     if (Prefs.DevMode)
                     {
                         Log.Warning(
-                            $"[RimTalk-Quests] Failed to generate enhancement for quest: {quest.name}"
+                            $"[RimAI.Quests] Failed to generate enhancement for quest: {quest.name}"
                         );
                     }
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"[RimTalk-Quests] Error generating quest description: {ex}");
+                Log.Error($"[RimAI.Quests] Error generating quest description: {ex}");
             }
             finally
             {
@@ -114,18 +114,18 @@ namespace RimTalkQuests.Services
         /// </summary>
         private static string BuildSystemInstruction()
         {
-            var settings = RimTalk.Settings.Get();
+            var settings = Ustas.RimAI.Communication.Settings.Get();
 
             // Get base instruction from RimTalk (respects user customization)
             var baseInstruction = string.IsNullOrWhiteSpace(settings.CustomInstruction)
-                ? RimTalk.Data.Constant.DefaultInstruction
+                ? Ustas.RimAI.Communication.Data.Constant.DefaultInstruction
                 : settings.CustomInstruction;
 
             // Quest-specific instruction (use custom or default)
             string questInstruction = string.IsNullOrWhiteSpace(
                 RimTalkQuestsMod.Settings.customQuestInstruction
             )
-                ? RimTalkQuests.Constant.GetDefaultQuestInstruction()
+                ? Ustas.RimAI.Quests.Constant.GetDefaultQuestInstruction()
                 : RimTalkQuestsMod.Settings.customQuestInstruction;
 
             return baseInstruction + "\n\n" + questInstruction;
@@ -157,7 +157,7 @@ namespace RimTalkQuests.Services
             // Quest rewards
             AppendQuestRewards(sb, quest);
 
-            // Scene information (reusing RimTalk's mechanism)
+            // Scene information (reusing Ustas.RimAI.Communication's mechanism)
             AppendSceneContext(sb);
 
             // Faction history context
@@ -353,7 +353,7 @@ namespace RimTalkQuests.Services
             if (client == null)
             {
                 Log.Warning(
-                    "[RimTalk-Quests] Failed to get AI client - check RimTalk configuration"
+                    "[RimAI.Quests] Failed to get AI client - check RimTalk configuration"
                 );
                 return null;
             }
@@ -369,9 +369,9 @@ namespace RimTalkQuests.Services
 
             if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
             {
-                Log.Message("[RimTalk-Quests] Starting plain text streaming API call...");
+                Log.Message("[RimAI.Quests] Starting plain text streaming API call...");
                 Log.Message(
-                    $"[RimTalk-Quests] Post-process mode: {(cleanDuringStreaming ? "real-time" : "final-only")}"
+                    $"[RimAI.Quests] Post-process mode: {(cleanDuringStreaming ? "real-time" : "final-only")}"
                 );
             }
 
@@ -386,7 +386,7 @@ namespace RimTalkQuests.Services
                     if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
                     {
                         Log.Message(
-                            $"[RimTalk-Quests] Chunk #{chunkCount} received: [{chunk?.Length ?? 0} chars] '{chunk}'"
+                            $"[RimAI.Quests] Chunk #{chunkCount} received: [{chunk?.Length ?? 0} chars] '{chunk}'"
                         );
                     }
 
@@ -406,7 +406,7 @@ namespace RimTalkQuests.Services
                         if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
                         {
                             Log.Message(
-                                $"[RimTalk-Quests] Updated quest.description (display chars: {displayContent.Length}, raw chars: {postProcessor.GetRawText().Length})"
+                                $"[RimAI.Quests] Updated quest.description (display chars: {displayContent.Length}, raw chars: {postProcessor.GetRawText().Length})"
                             );
                         }
                     }
@@ -416,7 +416,7 @@ namespace RimTalkQuests.Services
             if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
             {
                 Log.Message(
-                    $"[RimTalk-Quests] Streaming completed. Total chunks: {chunkCount}, Final raw length: {postProcessor.GetRawText().Length}"
+                    $"[RimAI.Quests] Streaming completed. Total chunks: {chunkCount}, Final raw length: {postProcessor.GetRawText().Length}"
                 );
             }
 
@@ -433,7 +433,7 @@ namespace RimTalkQuests.Services
 
             if (Prefs.DevMode)
             {
-                Log.Message($"[RimTalk-Quests] AI Response (raw):\n{finalRawText}");
+                Log.Message($"[RimAI.Quests] AI Response (raw):\n{finalRawText}");
             }
 
             var finalProcessedText = postProcessor.ProcessFinal(finalRawText);
@@ -489,11 +489,11 @@ namespace RimTalkQuests.Services
         /// </summary>
         public static bool IsAIServiceAvailable()
         {
-            if (!ModsConfig.IsActive("cj.rimtalk"))
+            if (!ModsConfig.IsActive("ustas.rimai.communication"))
                 return false;
 
             // Check if RimTalk has an active configuration
-            var settings = RimTalk.Settings.Get();
+            var settings = Ustas.RimAI.Communication.Settings.Get();
             var activeConfig = settings?.GetActiveConfig();
 
             return activeConfig != null;

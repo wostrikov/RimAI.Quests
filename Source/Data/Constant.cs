@@ -1,6 +1,6 @@
 using Verse;
 
-namespace RimTalkQuests
+namespace Ustas.RimAI.Quests
 {
     public static class Constant
     {

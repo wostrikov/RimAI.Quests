@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using RimTalk;
-using RimTalk.Client;
-using RimTalk.Client.Player2;
-using RimTalk.Data;
-using RimTalk.Util;
-using RimTalkQuests.Util;
+using Ustas.RimAI.Communication;
+using Ustas.RimAI.Communication.Client;
+using Ustas.RimAI.Communication.Client.Player2;
+using Ustas.RimAI.Communication.Data;
+using Ustas.RimAI.Communication.Util;
+using Ustas.RimAI.Quests.Util;
 using UnityEngine.Networking;
 using Verse;
 
-namespace RimTalkQuests.Services.Streaming
+namespace Ustas.RimAI.Quests.Services.Streaming
 {
     /// <summary>
     /// Plain text streaming client for Player2 API.
@@ -238,7 +238,7 @@ namespace RimTalkQuests.Services.Streaming
                 mergeConsecutiveSameRole: true
             );
             var allMessages = normalized.ConvertAll(
-                m => new RimTalk.Client.Player2.Message { Role = m.role, Content = m.content }
+                m => new Ustas.RimAI.Communication.Client.Player2.Message { Role = m.role, Content = m.content }
             );
 
             var request = new Player2Request { Messages = allMessages, Stream = stream };
@@ -257,7 +257,7 @@ namespace RimTalkQuests.Services.Streaming
             if (Prefs.DevMode)
             {
                 Log.Message(
-                    $"[RimTalk-Quests] Request URL ({(isLocal ? "local" : "remote")}): {url}"
+                    $"[RimAI.Quests] Request URL ({(isLocal ? "local" : "remote")}): {url}"
                 );
             }
 

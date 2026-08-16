@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace RimTalkQuests.Services.Streaming
+namespace Ustas.RimAI.Quests.Services.Streaming
 {
     /// <summary>
     /// Post-processes streamed text and removes closed think/reasoning blocks.

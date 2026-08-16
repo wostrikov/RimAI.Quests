@@ -7,7 +7,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace RimTalkQuests
+namespace Ustas.RimAI.Quests
 {
     /// <summary>
     /// Main mod class for RimTalk-Quests
@@ -34,13 +34,13 @@ namespace RimTalkQuests
                     "RimAI.Quests",
                     "Quests"));
 
-            Log.Message("[RimTalk-Quests] Initializing...");
+            Log.Message("[RimAI.Quests] Initializing...");
 
             // Check if RimTalk is loaded
-            if (!ModsConfig.IsActive("cj.rimtalk"))
+            if (!ModsConfig.IsActive("ustas.rimai.communication"))
             {
                 Log.Error(
-                    "[RimTalk-Quests] RimTalk is not loaded! This mod requires RimTalk to function."
+                    "[RimAI.Quests] RimTalk is not loaded! This mod requires RimTalk to function."
                 );
                 return;
             }
@@ -48,19 +48,19 @@ namespace RimTalkQuests
             try
             {
                 // Apply Harmony patches
-                HarmonyInstance = new Harmony("rimtalk.quests");
+                HarmonyInstance = new Harmony("ustas.rimai.quests");
                 HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 
                 Log.Message(
-                    "[RimTalk-Quests] Successfully initialized with Harmony patches applied."
+                    "[RimAI.Quests] Successfully initialized with Harmony patches applied."
                 );
                 Log.Message(
-                    "[RimTalk-Quests] Attribution: Based on RimTalk by juicy (CC BY-NC-SA 4.0)"
+                    "[RimAI.Quests] Attribution: Based on RimTalk by juicy (CC BY-NC-SA 4.0)"
                 );
             }
             catch (Exception ex)
             {
-                Log.Error($"[RimTalk-Quests] Failed to initialize: {ex}");
+                Log.Error($"[RimAI.Quests] Failed to initialize: {ex}");
             }
         }
 
@@ -79,27 +79,27 @@ namespace RimTalkQuests
             listingStandard.Begin(inRect);
 
             listingStandard.CheckboxLabeled(
-                "RimTalkQuests.Settings.EnableAIDescriptions".Translate(),
+                "Ustas.RimAI.Quests.Settings.EnableAIDescriptions".Translate(),
                 ref Settings.enableAIDescriptions,
-                "RimTalkQuests.Settings.EnableAIDescriptions.Desc".Translate()
+                "Ustas.RimAI.Quests.Settings.EnableAIDescriptions.Desc".Translate()
             );
 
             listingStandard.CheckboxLabeled(
-                "RimTalkQuests.Settings.VerboseDebugLogging".Translate(),
+                "Ustas.RimAI.Quests.Settings.VerboseDebugLogging".Translate(),
                 ref Settings.verboseDebugLogging,
-                "RimTalkQuests.Settings.VerboseDebugLogging.Desc".Translate()
+                "Ustas.RimAI.Quests.Settings.VerboseDebugLogging.Desc".Translate()
             );
 
             listingStandard.CheckboxLabeled(
-                "RimTalkQuests.Settings.CleanThinkTagsDuringStreaming".Translate(),
+                "Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming".Translate(),
                 ref Settings.cleanThinkTagsDuringStreaming,
-                "RimTalkQuests.Settings.CleanThinkTagsDuringStreaming.Desc".Translate()
+                "Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming.Desc".Translate()
             );
 
             listingStandard.Gap();
-            listingStandard.Label("RimTalkQuests.Settings.CustomQuestInstruction".Translate());
+            listingStandard.Label("Ustas.RimAI.Quests.Settings.CustomQuestInstruction".Translate());
             listingStandard.Label(
-                "RimTalkQuests.Settings.CustomQuestInstruction.Desc".Translate(),
+                "Ustas.RimAI.Quests.Settings.CustomQuestInstruction.Desc".Translate(),
                 -1f
             );
 
@@ -117,20 +117,20 @@ namespace RimTalkQuests
 
             listingStandard.Gap();
 
-            if (listingStandard.ButtonText("RimTalkQuests.Settings.ClearCache".Translate()))
+            if (listingStandard.ButtonText("Ustas.RimAI.Quests.Settings.ClearCache".Translate()))
             {
                 Services.QuestDescriptionGenerator.ClearCache();
                 Messages.Message(
-                    "RimTalkQuests.Settings.CacheCleared".Translate(),
+                    "Ustas.RimAI.Quests.Settings.CacheCleared".Translate(),
                     MessageTypeDefOf.NeutralEvent,
                     historical: false
                 );
             }
 
             listingStandard.Gap();
-            listingStandard.Label("RimTalkQuests.Settings.UsesRimTalkConfig".Translate());
+            listingStandard.Label("Ustas.RimAI.Quests.Settings.UsesRimTalkConfig".Translate());
             listingStandard.Label(
-                "RimTalkQuests.Settings.CurrentlyProcessing".Translate(
+                "Ustas.RimAI.Quests.Settings.CurrentlyProcessing".Translate(
                     Services.QuestDescriptionGenerator.ProcessingCount
                 )
             );

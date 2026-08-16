@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<packageId>rimtalk.quests</packageId>
+	<packageId>ustas.rimai.quests</packageId>
 	<name>RimAI.Quests</name>
 	<author>Laurence042</author>
 	<description>
@@ -55,14 +55,14 @@ RimAI.Quests is a RimAI domain module. It does not replace original quest info; 
 			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
 		</li>
 		<li>
-			<packageId>cj.rimtalk</packageId>
+			<packageId>ustas.rimai.communication</packageId>
 			<displayName>RimAI.Communication</displayName>
 			<steamWorkshopUrl>steam://url/CommunityFilePage/3378714281</steamWorkshopUrl>
 		</li>
 	</modDependencies>
 	<loadAfter>
 		<li>brrainz.harmony</li>
-		<li>cj.rimtalk</li>
+		<li>ustas.rimai.communication</li>
 	</loadAfter>
 	<incompatibleWith>
 		<!-- Add any incompatible mods here -->

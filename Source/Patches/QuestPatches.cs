@@ -4,13 +4,13 @@ using RimWorld;
 using RimWorld.QuestGen;
 using Verse;
 
-namespace RimTalkQuests.Patches
+namespace Ustas.RimAI.Quests.Patches
 {
     /// <summary>
     /// Harmony patch to intercept quest addition and generate AI descriptions.
     ///
     /// This patch hooks into RimWorld's quest system to provide dynamic, context-aware
-    /// quest descriptions using RimTalk's AI integration.
+    /// quest descriptions using Ustas.RimAI.Communication's AI integration.
     /// Generates descriptions when quest is first added, so they're ready when player views them.
     /// </summary>
     [HarmonyPatch(typeof(Quest), nameof(Quest.PostAdded))]
@@ -36,7 +36,7 @@ namespace RimTalkQuests.Patches
                 {
                     if (Prefs.DevMode)
                         Log.Warning(
-                            "[RimTalk-Quests] AI service not available. Make sure RimTalk is configured with an API key."
+                            "[RimAI.Quests] AI service not available. Make sure RimTalk is configured with an API key."
                         );
                     return;
                 }
@@ -47,7 +47,7 @@ namespace RimTalkQuests.Patches
             }
             catch (Exception ex)
             {
-                Log.Error($"[RimTalk-Quests] Error in quest post added patch: {ex}");
+                Log.Error($"[RimAI.Quests] Error in quest post added patch: {ex}");
             }
         }
     }

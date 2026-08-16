@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RimTalk;
-using RimTalk.Client;
-using RimTalk.Client.OpenAI;
-using RimTalk.Data;
-using RimTalk.Util;
-using RimTalkQuests.Util;
+using Ustas.RimAI.Communication;
+using Ustas.RimAI.Communication.Client;
+using Ustas.RimAI.Communication.Client.OpenAI;
+using Ustas.RimAI.Communication.Data;
+using Ustas.RimAI.Communication.Util;
+using Ustas.RimAI.Quests.Util;
 using UnityEngine.Networking;
 using Ustas.RimAI.Core.AI;
 using Verse;
 
-namespace RimTalkQuests.Services.Streaming
+namespace Ustas.RimAI.Quests.Services.Streaming
 {
     /// <summary>
     /// Plain text streaming client for OpenAI-compatible APIs
@@ -123,7 +123,7 @@ namespace RimTalkQuests.Services.Streaming
             );
             var allMessages = normalized
                 .Select(
-                    m => new RimTalk.Client.OpenAI.Message { Role = m.role, Content = m.content }
+                    m => new Ustas.RimAI.Communication.Client.OpenAI.Message { Role = m.role, Content = m.content }
                 )
                 .ToList();
 
@@ -154,7 +154,7 @@ namespace RimTalkQuests.Services.Streaming
 
             if (Prefs.DevMode)
             {
-                Log.Message($"[RimTalk-Quests] Request URL: {endpointUrl}");
+                Log.Message($"[RimAI.Quests] Request URL: {endpointUrl}");
             }
 
             QuestLogger.Debug($"API request: {endpointUrl}\n{jsonContent}");

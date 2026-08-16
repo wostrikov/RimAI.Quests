@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RimTalk.Client;
-using RimTalk.Data;
-using RimTalkQuests.Util;
+using Ustas.RimAI.Communication.Client;
+using Ustas.RimAI.Communication.Data;
+using Ustas.RimAI.Quests.Util;
 using UnityEngine.Networking;
 using Verse;
 
-namespace RimTalkQuests.Services.Streaming
+namespace Ustas.RimAI.Quests.Services.Streaming
 {
     /// <summary>
     /// Base class for provider-specific streaming clients.

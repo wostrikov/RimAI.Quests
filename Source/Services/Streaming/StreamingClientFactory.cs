@@ -1,9 +1,9 @@
 using System;
-using RimTalk.Client;
-using RimTalk.Client.OpenAI;
-using RimTalk.Client.Player2;
+using Ustas.RimAI.Communication.Client;
+using Ustas.RimAI.Communication.Client.OpenAI;
+using Ustas.RimAI.Communication.Client.Player2;
 
-namespace RimTalkQuests.Services.Streaming
+namespace Ustas.RimAI.Quests.Services.Streaming
 {
     public static class StreamingClientFactory
     {
