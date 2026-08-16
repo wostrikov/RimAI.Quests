@@ -2,7 +2,7 @@
 # This script helps clean build cache and symbol cache
 
 # Clean dotnet build artifacts
-dotnet clean RimTalkQuests.csproj
+dotnet clean RimAI.Quests.csproj
 
 # Clean VS Code symbol cache (decompiled files)
 $symbolCachePath = "$env:LOCALAPPDATA\Temp\SymbolCache"
@@ -15,4 +15,4 @@ if (Test-Path $symbolCachePath) {
 }
 
 # Restore dependencies
-dotnet restore RimTalkQuests.csproj
+dotnet restore RimAI.Quests.csproj

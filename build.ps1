@@ -97,7 +97,7 @@ if ($UseNuGet) {
     # Build with NuGet packages (no local DLLs required)
     $buildArgs = @(
         "build",
-        "RimTalkQuests.csproj",
+        "RimAI.Quests.csproj",
         "/p:GameVersion=$GameVersion",
         "/p:Configuration=$Configuration",
         "/p:UseLocalDlls=false"
@@ -106,7 +106,7 @@ if ($UseNuGet) {
     # Build with local DLLs (full static analysis)
     $buildArgs = @(
         "build",
-        "RimTalkQuests.csproj",
+        "RimAI.Quests.csproj",
         "/p:GameVersion=$GameVersion",
         "/p:Configuration=$Configuration",
         "/p:RimWorldDir=$RimWorldPath",
@@ -127,7 +127,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "  Build Successful!" -ForegroundColor Green
     Write-Host "========================================" -ForegroundColor Green
     Write-Host ""
-    Write-Host "Output: $GameVersion\Assemblies\RimTalkQuests.dll" -ForegroundColor Green
+    Write-Host "Output: $GameVersion\Assemblies\RimAI.Quests.dll" -ForegroundColor Green
     
     $modDestPath = Join-Path $RimWorldPath "Mods\RimTalk-Quests"
     if (Test-Path $modDestPath) {

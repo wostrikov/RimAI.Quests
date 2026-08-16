@@ -12,8 +12,8 @@
         <RimWorldDir Condition=" '$(RimWorldDir)' == '' ">$(RIMWORLD_DIR)</RimWorldDir>
         <RimWorldWorkshopDir Condition=" '$(RimWorldWorkshopDir)' == '' ">$(RIMWORLD_WORKSHOP_DIR)</RimWorldWorkshopDir>
 
-        <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimTalk-Quests\bin\</BaseOutputPath>
-        <BaseIntermediateOutputPath Condition=" '$(BaseIntermediateOutputPath)' == '' ">$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimTalk-Quests\obj\</BaseIntermediateOutputPath>
+        <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimAI.Quests\bin\</BaseOutputPath>
+        <BaseIntermediateOutputPath Condition=" '$(BaseIntermediateOutputPath)' == '' ">$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimAI.Quests\obj\</BaseIntermediateOutputPath>
         <OutputPath>$(BaseOutputPath)$(Configuration)\</OutputPath>
         <ModFolderName>RimAI.Quests</ModFolderName>
         <LangVersion>latest</LangVersion>
@@ -43,7 +43,7 @@
         <ProjectReference Include="..\RimAI.Core\src\RimAI.Core\RimAI.Core.csproj">
             <Private>false</Private>
         </ProjectReference>
-        <ProjectReference Include="..\RimAI.Communication\RimTalk.csproj">
+        <ProjectReference Include="..\RimAI.Communication\RimAI.Communication.csproj">
             <Private>false</Private>
         </ProjectReference>
     </ItemGroup>
