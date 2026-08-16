@@ -73,7 +73,8 @@ namespace Ustas.RimAI.Quests.Services.Streaming
                 ApiShape = TextAiApiShape.ChatCompletions,
                 Stream = true,
                 Model = model,
-                Caller = "quests"
+                Caller = "quests",
+                Arbitration = AiRequestMetadata.FromCaller("quests", streaming: true)
             }, ev =>
             {
                 if (!string.IsNullOrEmpty(ev.Delta))
