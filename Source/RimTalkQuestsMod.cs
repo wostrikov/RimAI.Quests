@@ -27,6 +27,12 @@ namespace RimTalkQuests
         {
             Instance = this;
             Settings = GetSettings<QuestSettings>();
+            Ustas.RimAI.Core.Modules.RimAIModuleRegistry.Current.Register(
+                new Ustas.RimAI.Core.Modules.RimAIModuleDescriptor(
+                    "quests",
+                    "RimAI.Quests",
+                    "RimAI.Quests",
+                    "Quests"));
 
             Log.Message("[RimTalk-Quests] Initializing...");
 

@@ -10,6 +10,7 @@ using RimTalk.Data;
 using RimTalk.Util;
 using RimTalkQuests.Util;
 using UnityEngine.Networking;
+using Ustas.RimAI.Core.AI;
 using Verse;
 
 namespace RimTalkQuests.Services.Streaming
@@ -61,18 +62,33 @@ namespace RimTalkQuests.Services.Streaming
             // Build request JSON
             string jsonContent = BuildRequestJson(instruction, messages, model, stream: true);
 
-            // Create stream handler with callback
-            var streamHandler = new OpenAIStreamHandler(SafeChunkCallback(onTextChunkReceived));
+            var chunk = SafeChunkCallback(onTextChunkReceived);
+            var shared = await Task.Run(() => SharedTextAiOrchestrator.Stream(new TextAiRequest
+            {
+                PrebuiltJson = jsonContent,
+                BaseUrl = endpointUrl,
+                ApiKey = apiKey,
+                ExtraHeaders = extraHeaders,
+                UseSharedGameplayCredential = false,
+                ApiShape = TextAiApiShape.ChatCompletions,
+                Stream = true,
+                Model = model,
+                Caller = "quests"
+            }, ev =>
+            {
+                if (!string.IsNullOrEmpty(ev.Delta))
+                    chunk(ev.Delta);
+            }));
 
-            // Send request
-            await SendRequestAsync(endpointUrl, jsonContent, apiKey, extraHeaders, streamHandler);
+            if (!shared.Succeeded)
+                throw new Exception(shared.Error ?? "Shared streaming transport failed");
 
             return new Payload(
                 endpointUrl,
                 model,
                 jsonContent,
-                streamHandler.GetFullText(),
-                streamHandler.GetTotalTokens()
+                shared.Text,
+                0
             );
         }
 
