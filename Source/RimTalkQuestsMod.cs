@@ -5,6 +5,7 @@ using System.Text;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Ustas.RimAI.Core.Modules;
 using Verse;
 
 namespace Ustas.RimAI.Quests
@@ -71,9 +72,7 @@ namespace Ustas.RimAI.Quests
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
-            AccessTools.TypeByName("Ustas.RimAI.Core.Modules.RimAISettingsNavigation")
-                ?.GetMethod("Open")
-                ?.Invoke(null, new object[] { "quests", null });
+            RimAISettingsNavigation.Open("quests");
             base.DoSettingsWindowContents(inRect);
             Listing_Standard listingStandard = new Listing_Standard();
             listingStandard.Begin(inRect);

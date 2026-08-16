@@ -5,7 +5,6 @@ param(
     [string]$GameVersion = "1.6",
     [string]$Configuration = "Debug",
     [string]$RimWorldPath = "D:\SteamLibrary\steamapps\common\RimWorld",
-    [string]$RimTalkPath = "",  # Optional: Direct path to RimTalk.dll (overrides auto-detection)
     [switch]$UseNuGet = $false
 )
 
@@ -37,44 +36,6 @@ if (-not $UseNuGet) {
     }
 
     Write-Host "RimWorld Path: $RimWorldPath" -ForegroundColor Green
-    
-    # Check for RimTalk.dll
-    # Priority: 1. User specified path, 2. Workshop, 3. Local Mods
-    $rimTalkFound = $false
-    
-    if (-not [string]::IsNullOrEmpty($RimTalkPath)) {
-        # User provided direct path
-        if (Test-Path $RimTalkPath) {
-            Write-Host "RimTalk DLL:   User specified path [OK]" -ForegroundColor Green
-            Write-Host "               $RimTalkPath" -ForegroundColor Gray
-            $rimTalkFound = $true
-        } else {
-            Write-Host "WARNING: Specified RimTalk path not found: $RimTalkPath" -ForegroundColor Yellow
-        }
-    }
-    
-    if (-not $rimTalkFound) {
-        # Auto-detect: Check Workshop and Local Mods
-        # RimWorld is in: D:\SteamLibrary\steamapps\common\RimWorld
-        # Workshop is in: D:\SteamLibrary\steamapps\workshop\content\...
-        $steamAppsDir = Split-Path $RimWorldPath -Parent | Split-Path -Parent
-        $workshopRimTalk = Join-Path $steamAppsDir "workshop\content\294100\3551203752\$GameVersion\Assemblies\RimTalk.dll"
-        $localRimTalk = Join-Path $RimWorldPath "Mods\RimTalk\$GameVersion\Assemblies\RimTalk.dll"
-        
-        if (Test-Path $workshopRimTalk) {
-            Write-Host "RimTalk DLL:   Workshop (Steam) [OK]" -ForegroundColor Green
-            $rimTalkFound = $true
-        } elseif (Test-Path $localRimTalk) {
-            Write-Host "RimTalk DLL:   Local Mods [OK]" -ForegroundColor Green
-            $rimTalkFound = $true
-        } else {
-            Write-Host "WARNING: RimTalk.dll not found!" -ForegroundColor Yellow
-            Write-Host "  Workshop: $workshopRimTalk" -ForegroundColor Gray
-            Write-Host "  Local:    $localRimTalk" -ForegroundColor Gray
-            Write-Host "  Or use:   -RimTalkPath 'C:\Path\To\RimTalk.dll'" -ForegroundColor Gray
-        }
-    }
-    
     Write-Host "Game Version:  $GameVersion" -ForegroundColor Green
     Write-Host "Configuration: $Configuration" -ForegroundColor Green
 } else {
@@ -112,11 +73,6 @@ if ($UseNuGet) {
         "/p:RimWorldDir=$RimWorldPath",
         "/p:UseLocalDlls=true"
     )
-    
-    # Add RimTalk path if specified
-    if (-not [string]::IsNullOrEmpty($RimTalkPath)) {
-        $buildArgs += "/p:RimTalkDll=$RimTalkPath"
-    }
 }
 
 & dotnet $buildArgs
@@ -129,7 +85,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host ""
     Write-Host "Output: $GameVersion\Assemblies\RimAI.Quests.dll" -ForegroundColor Green
     
-    $modDestPath = Join-Path $RimWorldPath "Mods\RimTalk-Quests"
+    $modDestPath = Join-Path $RimWorldPath "Mods\RimAI.Quests"
     if (Test-Path $modDestPath) {
         Write-Host "Deployed to: $modDestPath" -ForegroundColor Green
     }

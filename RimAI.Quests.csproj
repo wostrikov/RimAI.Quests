@@ -70,32 +70,6 @@
         </Reference>
     </ItemGroup>
 
-    <!-- Compute paths for RimTalk assembly references -->
-    <PropertyGroup Condition=" '$(UseLocalDlls)' == 'true' AND '$(RimWorldDir)' != '' ">
-        <WorkshopRimTalkDll>$(RimWorldWorkshopDir)\3551203752\$(GameVersion)\Assemblies\RimAI.Communication.dll</WorkshopRimTalkDll>
-        <LocalRimTalkDll>$(RimWorldDir)\Mods\RimTalk\$(GameVersion)\Assemblies\RimAI.Communication.dll</LocalRimTalkDll>
-        
-        <!-- Allow the central build to pass the active local provider directory. -->
-        <RimTalkDllPath Condition=" '$(RimTalkDir)' != '' ">$(RimTalkDir)\$(GameVersion)\Assemblies\RimAI.Communication.dll</RimTalkDllPath>
-        <!-- Retain the direct-DLL override for standalone builds. -->
-        <RimTalkDllPath Condition=" '$(RimTalkDll)' != '' ">$(RimTalkDll)</RimTalkDllPath>
-        <RimTalkDllPath Condition=" '$(RimTalkDll)' == '' AND Exists('$(WorkshopRimTalkDll)') ">$(WorkshopRimTalkDll)</RimTalkDllPath>
-        <RimTalkDllPath Condition=" '$(RimTalkDll)' == '' AND !Exists('$(WorkshopRimTalkDll)') AND Exists('$(LocalRimTalkDll)') ">$(LocalRimTalkDll)</RimTalkDllPath>
-    </PropertyGroup>
-
-    <!-- Reference RimTalk assembly from computed path -->
-    <ItemGroup Condition=" '$(UseLocalDlls)' == 'true' AND '$(RimTalkDllPath)' != '' ">
-        <Reference Include="RimTalk">
-            <HintPath>$(RimTalkDllPath)</HintPath>
-            <Private>false</Private>
-        </Reference>
-    </ItemGroup>
-
-    <!-- Warning if RimTalk not found -->
-    <Target Name="CheckRimTalkReference" BeforeTargets="BeforeBuild" Condition=" '$(UseLocalDlls)' == 'true' AND '$(RimWorldDir)' != '' AND '$(RimTalkDllPath)' == '' ">
-        <Warning Text="RimAI.Communication.dll not found! Check Workshop (3551203752) or local Mods folder, or use -RimTalkPath parameter" />
-    </Target>
-
     <!-- Exclude ref directory from compilation -->
     <ItemGroup>
         <Compile Remove="ref\**" />
@@ -112,7 +86,7 @@
     <!-- Deploy to RimWorld client (macOS) -->
     <Target Name="MacDeploy">
         <PropertyGroup>
-            <DeployPath>$(RimWorldDir)/RimWorldMac.app/Mods/RimTalk-Quests/</DeployPath>
+            <DeployPath>$(RimWorldDir)/RimWorldMac.app/Mods/$(ModFolderName)/</DeployPath>
         </PropertyGroup>
         <MakeDir Directories="$(DeployPath)"/>
         <Exec Command='rsync -a --delete --checksum "$(ProjectDir)About/"     "$(DeployPath)About/"'/>
@@ -126,7 +100,7 @@
     <!-- Deploy to RimWorld client (Windows) -->
     <Target Name="WinDeploy">
         <PropertyGroup>
-            <WinModPath>$(RimWorldDir)\Mods\RimTalk-Quests\</WinModPath>
+            <WinModPath>$(RimWorldDir)\Mods\$(ModFolderName)\</WinModPath>
         </PropertyGroup>
         <Message Text="Copying to $(WinModPath)" Importance="high"/>
         <ItemGroup>

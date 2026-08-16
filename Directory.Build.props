@@ -1,1 +1,6 @@
-<Project><PropertyGroup><BaseOutputPath>$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimTalk-Quests\bin\</BaseOutputPath><BaseIntermediateOutputPath>$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimTalk-Quests\obj\</BaseIntermediateOutputPath></PropertyGroup></Project>
+<Project>
+  <PropertyGroup>
+    <BaseOutputPath>$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimAI.Quests\bin\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(LOCALAPPDATA)\Ustas\RimWorldSourceBuilds\RimAI.Quests\obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+</Project>
