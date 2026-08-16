@@ -8,7 +8,7 @@
 
 [b]当你看到“寻求帮助的流浪者”时，你脑子里想的是一段故事，还是一堆行走的器官？[/b] [b]When you see "Traveler seeking help," do you see a story unfolding, or just a walking pile of organs?[/b]
 
-RimTalk - Quests 是 RimTalk 的沉浸式扩展。它不会修改原本的任务描述，而是在其后追加详尽、感性的叙事补全。 RimTalk - Quests is an immersive expansion for RimTalk. It doesn't modify the original quest info; instead, it appends rich, emotional narratives to the existing descriptions.
+RimAI.Quests is a RimAI domain module. It does not replace original quest info; it appends rich, emotional narratives. RimAI.Quests не замінює оригінальний текст завдання, а додає наративне доповнення.
 
 它为那些机械的资源请求提供了背景：为什么他需要这 2 个医药？他经历了什么？他正在为何而挣扎？ It provides context for mechanical requests: Why does he need these 2x medicines? What has he been through? What is he fighting for?
 
@@ -16,7 +16,7 @@ RimTalk - Quests 是 RimTalk 的沉浸式扩展。它不会修改原本的任务
 
 [h3]核心功能 | Key Features[/h3]
 
-[list] [*] [b]零配置成本 | Zero Configuration[/b] 本插件完全复用 RimTalk 中已配置的 LLM（大语言模型）服务与 API 设置。 This mod automatically reuses the LLM services and API settings already configured in RimTalk.
+[list] [*] [b]Shared text AI | Спільний текстовий ШІ[/b] Uses the shared RimAI gameplay text-AI configuration. Використовує спільну конфігурацію текстового ШІ RimAI.
 
 [*] [b]深度 Prompt 继承 | Prompt Inheritance[/b] 插件会智能结合并复用你在 RimTalk 里的全局 Prompt 设置，生成风格统一的扩展文本。 Seamlessly integrates and reuses your existing RimTalk prompt settings to ensure a consistent narrative style.
 
@@ -56,7 +56,7 @@ RimTalk - Quests 是 RimTalk 的沉浸式扩展。它不会修改原本的任务
 		</li>
 		<li>
 			<packageId>cj.rimtalk</packageId>
-			<displayName>RimTalk</displayName>
+			<displayName>RimAI.Communication</displayName>
 			<steamWorkshopUrl>steam://url/CommunityFilePage/3378714281</steamWorkshopUrl>
 		</li>
 	</modDependencies>

@@ -65,6 +65,9 @@ namespace RimTalkQuests
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
+            AccessTools.TypeByName("Ustas.RimAI.Core.Modules.RimAISettingsNavigation")
+                ?.GetMethod("Open")
+                ?.Invoke(null, new object[] { "quests", null });
             base.DoSettingsWindowContents(inRect);
             Listing_Standard listingStandard = new Listing_Standard();
             listingStandard.Begin(inRect);
