@@ -6,9 +6,9 @@ using Ustas.RimAI.Communication.Client;
 using Ustas.RimAI.Communication.Client.Player2;
 using Ustas.RimAI.Communication.Data;
 using Ustas.RimAI.Communication.Util;
+using Ustas.RimAI.Core.Net;
 using Ustas.RimAI.Core.Player2;
 using Ustas.RimAI.Quests.Util;
-using UnityEngine.Networking;
 using Verse;
 
 namespace Ustas.RimAI.Quests.Services.Streaming
@@ -134,26 +134,28 @@ namespace Ustas.RimAI.Quests.Services.Streaming
                 $"Player2 API request ({(isLocal ? "local" : "remote")}): {url}\n{jsonContent}"
             );
 
-            using var webRequest = CreateJsonPostRequest(url, jsonContent, streamHandler, apiKey);
-            webRequest.SetRequestHeader(Player2GameKeys.HeaderName, Player2GameKeys.Canonical);
-
+            var extraHeaders = new Dictionary<string, string>
+            {
+                [Player2GameKeys.HeaderName] = Player2GameKeys.Canonical
+            };
             const float connectTimeout = 60f;
             const float readTimeout = 60f;
-
-            bool completed = await AwaitStreamingResponseAsync(
-                webRequest,
+            var http = await SendJsonPostAsync(
+                url,
+                jsonContent,
+                apiKey,
+                extraHeaders,
+                streamHandler.AppendUtf8,
                 connectTimeout,
                 readTimeout,
-                timeout => $"Connection timed out ({timeout}s)",
-                timeout => $"Read timed out ({timeout}s)"
-            );
+                "quests-player2");
 
-            if (!completed)
-            {
+            if (http.Cancelled && string.Equals(http.ErrorMessage, "game-exit", StringComparison.Ordinal))
                 return null;
-            }
 
-            // Flush remaining buffer
+            if (http.TimedOut)
+                throw new TimeoutException(http.ErrorMessage ?? "Player2 request timed out");
+
             streamHandler.Flush();
 
             // Check for streaming errors - clear cache if auth failed
@@ -168,10 +170,10 @@ namespace Ustas.RimAI.Quests.Services.Streaming
                 throw new Exception($"Player2 streaming error: {errorMsg}");
             }
 
-            if (HasTransportError(webRequest))
+            if (HasTransportError(http))
             {
                 ThrowRequestFailed(
-                    webRequest,
+                    http,
                     "Request failed",
                     () =>
                     {

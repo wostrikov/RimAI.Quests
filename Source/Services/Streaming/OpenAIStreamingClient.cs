@@ -9,7 +9,6 @@ using Ustas.RimAI.Communication.Client.OpenAI;
 using Ustas.RimAI.Communication.Data;
 using Ustas.RimAI.Communication.Util;
 using Ustas.RimAI.Quests.Util;
-using UnityEngine.Networking;
 using Ustas.RimAI.Core.AI;
 using Verse;
 
@@ -160,15 +159,6 @@ namespace Ustas.RimAI.Quests.Services.Streaming
 
             QuestLogger.Debug($"API request: {endpointUrl}\n{jsonContent}");
 
-            using var webRequest = CreateJsonPostRequest(
-                endpointUrl,
-                jsonContent,
-                streamHandler,
-                apiKey,
-                extraHeaders
-            );
-
-            // Timeout logic - longer timeout for local endpoints
             bool isLocal =
                 endpointUrl.Contains("localhost")
                 || endpointUrl.Contains("127.0.0.1")
@@ -177,23 +167,25 @@ namespace Ustas.RimAI.Quests.Services.Streaming
 
             float connectTimeout = isLocal ? 300f : 60f;
             float readTimeout = 60f;
-
-            bool completed = await AwaitStreamingResponseAsync(
-                webRequest,
+            var http = await SendJsonPostAsync(
+                endpointUrl,
+                jsonContent,
+                apiKey,
+                extraHeaders,
+                streamHandler.AppendUtf8,
                 connectTimeout,
                 readTimeout,
-                timeout => $"Connection timed out (Waited {timeout}s for first token)",
-                timeout => $"Read timed out (Stalled for {timeout}s during generation)"
-            );
+                "quests-openai");
 
-            if (!completed)
-            {
+            if (http.Cancelled && string.Equals(http.ErrorMessage, "game-exit", StringComparison.Ordinal))
                 return null;
-            }
 
-            if (HasTransportError(webRequest))
+            if (http.TimedOut)
+                throw new TimeoutException(http.ErrorMessage ?? "Request timed out");
+
+            if (HasTransportError(http))
             {
-                ThrowRequestFailed(webRequest, "Request failed");
+                ThrowRequestFailed(http, "Request failed");
             }
 
             QuestLogger.Debug($"API response: \n{streamHandler.GetRawJson()}");

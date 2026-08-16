@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Ustas.RimAI.Communication.Client;
 using Ustas.RimAI.Communication.Data;
+using Ustas.RimAI.Core.Net;
 using Ustas.RimAI.Quests.Util;
-using UnityEngine.Networking;
 using Verse;
 
 namespace Ustas.RimAI.Quests.Services.Streaming
@@ -40,90 +39,67 @@ namespace Ustas.RimAI.Quests.Services.Streaming
             };
         }
 
-        protected static UnityWebRequest CreateJsonPostRequest(
+        protected static async Task<HttpTransportResponse> SendJsonPostAsync(
             string url,
             string jsonContent,
-            DownloadHandler downloadHandler,
-            string apiKey = null,
-            Dictionary<string, string> extraHeaders = null
+            string apiKey,
+            Dictionary<string, string> extraHeaders,
+            Action<string> onUtf8Chunk,
+            float connectTimeoutSeconds,
+            float readTimeoutSeconds,
+            string correlationId
         )
         {
-            var request = new UnityWebRequest(url, "POST");
-            request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonContent));
-            request.downloadHandler = downloadHandler;
-            request.SetRequestHeader("Content-Type", "application/json");
-
+            var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             if (!string.IsNullOrEmpty(apiKey))
-            {
-                request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
-            }
-
+                headers["Authorization"] = $"Bearer {apiKey}";
             if (extraHeaders != null)
             {
                 foreach (var header in extraHeaders)
-                {
-                    request.SetRequestHeader(header.Key, header.Value);
-                }
+                    headers[header.Key] = header.Value;
             }
 
-            return request;
-        }
+            using var cts = new CancellationTokenSource();
+            var send = SharedHttpTransport.Current.SendAsync(
+                new HttpTransportRequest
+                {
+                    Method = "POST",
+                    Url = url,
+                    Headers = headers,
+                    Body = jsonContent,
+                    ContentType = "application/json",
+                    TimeoutMilliseconds = (int)((connectTimeoutSeconds + readTimeoutSeconds) * 1000),
+                    FirstByteTimeoutMilliseconds = (int)(connectTimeoutSeconds * 1000),
+                    IdleTimeoutMilliseconds = (int)(readTimeoutSeconds * 1000),
+                    CorrelationId = correlationId
+                },
+                onUtf8Chunk,
+                cts.Token);
 
-        protected static async Task<bool> AwaitStreamingResponseAsync(
-            UnityWebRequest webRequest,
-            float connectTimeoutSeconds,
-            float readTimeoutSeconds,
-            Func<float, string> connectTimeoutMessageFactory,
-            Func<float, string> readTimeoutMessageFactory
-        )
-        {
-            var asyncOp = webRequest.SendWebRequest();
-
-            float inactivityTimer = 0f;
-            ulong lastBytes = 0;
-
-            while (!asyncOp.isDone)
+            while (!send.IsCompleted)
             {
                 if (Current.Game == null)
                 {
-                    return false;
+                    cts.Cancel();
+                    return HttpTransportResponse.Fail(
+                        HttpTransportErrorKind.Cancelled,
+                        "game-exit",
+                        SharedHttpTransport.Current.Kind);
                 }
 
                 await Task.Delay(100);
-
-                ulong currentBytes = webRequest.downloadedBytes;
-                bool hasStartedReceiving = currentBytes > 0;
-
-                if (currentBytes > lastBytes)
-                {
-                    inactivityTimer = 0f;
-                    lastBytes = currentBytes;
-                }
-                else
-                {
-                    inactivityTimer += 0.1f;
-                }
-
-                if (!hasStartedReceiving && inactivityTimer > connectTimeoutSeconds)
-                {
-                    webRequest.Abort();
-                    throw new TimeoutException(connectTimeoutMessageFactory(connectTimeoutSeconds));
-                }
-
-                if (hasStartedReceiving && inactivityTimer > readTimeoutSeconds)
-                {
-                    webRequest.Abort();
-                    throw new TimeoutException(readTimeoutMessageFactory(readTimeoutSeconds));
-                }
             }
 
-            return true;
+            return await send;
         }
 
-        protected static bool HasTransportError(UnityWebRequest webRequest)
+        protected static bool HasTransportError(HttpTransportResponse response)
         {
-            return webRequest.result == UnityWebRequest.Result.ConnectionError
-                || webRequest.result == UnityWebRequest.Result.ProtocolError;
+            return response == null
+                || !response.Succeeded
+                || response.ErrorKind == HttpTransportErrorKind.NetworkFailure
+                || response.ErrorKind == HttpTransportErrorKind.HttpFailure
+                || response.ErrorKind == HttpTransportErrorKind.Timeout;
         }
 
         protected static List<(string role, string content)> BuildNormalizedMessages(
@@ -168,14 +144,14 @@ namespace Ustas.RimAI.Quests.Services.Streaming
         }
 
         protected static void ThrowRequestFailed(
-            UnityWebRequest webRequest,
+            HttpTransportResponse response,
             string logPrefix,
             Action onBeforeThrow = null
         )
         {
             onBeforeThrow?.Invoke();
-            string errorMsg = webRequest.error;
-            QuestLogger.Error($"{logPrefix}: {webRequest.responseCode} - {errorMsg}");
+            string errorMsg = response?.ErrorMessage;
+            QuestLogger.Error($"{logPrefix}: {response?.StatusCode} - {errorMsg}");
             throw new Exception($"{logPrefix}: {errorMsg}");
         }
     }
