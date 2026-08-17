@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
     <!-- 设置 -->
-    <RimTalkQuests.Settings.Category>RimTalk - 任务</RimTalkQuests.Settings.Category>
-    <RimTalkQuests.Settings.EnableAIDescriptions>启用 AI 任务描述</RimTalkQuests.Settings.EnableAIDescriptions>
-    <RimTalkQuests.Settings.EnableAIDescriptions.Desc>禁用后本模组将不会生效。可用于排查错误是否由本模组引起。</RimTalkQuests.Settings.EnableAIDescriptions.Desc>
-    <RimTalkQuests.Settings.VerboseDebugLogging>详细调试日志</RimTalkQuests.Settings.VerboseDebugLogging>
-    <RimTalkQuests.Settings.VerboseDebugLogging.Desc>启用包含流式传输分块在内的详细调试日志，仅在开发者模式下生效。</RimTalkQuests.Settings.VerboseDebugLogging.Desc>
-    <RimTalkQuests.Settings.CleanThinkTagsDuringStreaming>在流式过程中清理已闭合的 think/reasoning 标签</RimTalkQuests.Settings.CleanThinkTagsDuringStreaming>
-    <RimTalkQuests.Settings.CleanThinkTagsDuringStreaming.Desc>启用：think/reasoning 块一旦闭合就立即移除。禁用：生成期间保持可见，待输出完成后再统一清理。</RimTalkQuests.Settings.CleanThinkTagsDuringStreaming.Desc>
-    <RimTalkQuests.Settings.CustomQuestInstruction>自定义任务指令：</RimTalkQuests.Settings.CustomQuestInstruction>
-    <RimTalkQuests.Settings.CustomQuestInstruction.Desc>留空则使用默认指令。此内容将追加到 RimTalk 的基础指令之后。</RimTalkQuests.Settings.CustomQuestInstruction.Desc>
-    <RimTalkQuests.Settings.ClearCache>清除缓存</RimTalkQuests.Settings.ClearCache>
-    <RimTalkQuests.Settings.CacheCleared>任务描述缓存已清除。</RimTalkQuests.Settings.CacheCleared>
-    <RimTalkQuests.Settings.UsesRimTalkConfig>RimTalk-Quests 使用您现有的 RimTalk AI 配置。</RimTalkQuests.Settings.UsesRimTalkConfig>
-    <RimTalkQuests.Settings.CurrentlyProcessing>当前正在处理：{0} 个任务</RimTalkQuests.Settings.CurrentlyProcessing>
+    <Ustas.RimAI.Quests.Settings.Category>RimTalk - 任务</Ustas.RimAI.Quests.Settings.Category>
+    <Ustas.RimAI.Quests.Settings.EnableAIDescriptions>启用 AI 任务描述</Ustas.RimAI.Quests.Settings.EnableAIDescriptions>
+    <Ustas.RimAI.Quests.Settings.EnableAIDescriptions.Desc>禁用后本模组将不会生效。可用于排查错误是否由本模组引起。</Ustas.RimAI.Quests.Settings.EnableAIDescriptions.Desc>
+    <Ustas.RimAI.Quests.Settings.VerboseDebugLogging>详细调试日志</Ustas.RimAI.Quests.Settings.VerboseDebugLogging>
+    <Ustas.RimAI.Quests.Settings.VerboseDebugLogging.Desc>启用包含流式传输分块在内的详细调试日志，仅在开发者模式下生效。</Ustas.RimAI.Quests.Settings.VerboseDebugLogging.Desc>
+    <Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming>在流式过程中清理已闭合的 think/reasoning 标签</Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming>
+    <Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming.Desc>启用：think/reasoning 块一旦闭合就立即移除。禁用：生成期间保持可见，待输出完成后再统一清理。</Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming.Desc>
+    <Ustas.RimAI.Quests.Settings.CustomQuestInstruction>自定义任务指令：</Ustas.RimAI.Quests.Settings.CustomQuestInstruction>
+    <Ustas.RimAI.Quests.Settings.CustomQuestInstruction.Desc>留空则使用默认指令。此内容将追加到 RimTalk 的基础指令之后。</Ustas.RimAI.Quests.Settings.CustomQuestInstruction.Desc>
+    <Ustas.RimAI.Quests.Settings.ClearCache>清除缓存</Ustas.RimAI.Quests.Settings.ClearCache>
+    <Ustas.RimAI.Quests.Settings.CacheCleared>任务描述缓存已清除。</Ustas.RimAI.Quests.Settings.CacheCleared>
+    <Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>RimTalk-Quests 使用您现有的 RimTalk AI 配置。</Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>
+    <Ustas.RimAI.Quests.Settings.CurrentlyProcessing>当前正在处理：{0} 个任务</Ustas.RimAI.Quests.Settings.CurrentlyProcessing>
 </LanguageData>

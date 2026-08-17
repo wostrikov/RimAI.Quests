@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
     <!-- Settings -->
-    <RimTalkQuests.Settings.Category>RimTalk - Quests</RimTalkQuests.Settings.Category>
-    <RimTalkQuests.Settings.EnableAIDescriptions>Enable AI Quest Descriptions</RimTalkQuests.Settings.EnableAIDescriptions>
-    <RimTalkQuests.Settings.EnableAIDescriptions.Desc>This mod will not work if disabled. Use this to check if errors are caused by this mod.</RimTalkQuests.Settings.EnableAIDescriptions.Desc>
-    <RimTalkQuests.Settings.VerboseDebugLogging>Verbose Debug Logging</RimTalkQuests.Settings.VerboseDebugLogging>
-    <RimTalkQuests.Settings.VerboseDebugLogging.Desc>Enable detailed debug logs including streaming chunks. Only works in Dev Mode.</RimTalkQuests.Settings.VerboseDebugLogging.Desc>
-    <RimTalkQuests.Settings.CleanThinkTagsDuringStreaming>Clean closed think/reasoning tags during streaming</RimTalkQuests.Settings.CleanThinkTagsDuringStreaming>
-    <RimTalkQuests.Settings.CleanThinkTagsDuringStreaming.Desc>Enabled: remove closed think/reasoning blocks as they complete. Disabled: keep them visible until generation finishes, then clean once.</RimTalkQuests.Settings.CleanThinkTagsDuringStreaming.Desc>
-    <RimTalkQuests.Settings.CustomQuestInstruction>Custom Quest Instruction:</RimTalkQuests.Settings.CustomQuestInstruction>
-    <RimTalkQuests.Settings.CustomQuestInstruction.Desc>Leave empty to use default. This will be appended to RimTalk's base instruction.</RimTalkQuests.Settings.CustomQuestInstruction.Desc>
-    <RimTalkQuests.Settings.ClearCache>Clear Cache</RimTalkQuests.Settings.ClearCache>
-    <RimTalkQuests.Settings.CacheCleared>Quest description cache cleared.</RimTalkQuests.Settings.CacheCleared>
-    <RimTalkQuests.Settings.UsesRimTalkConfig>RimAI.Quests uses the shared RimAI text AI configuration.</RimTalkQuests.Settings.UsesRimTalkConfig>
-    <RimTalkQuests.Settings.CurrentlyProcessing>Currently processing: {0} quests</RimTalkQuests.Settings.CurrentlyProcessing>
+    <Ustas.RimAI.Quests.Settings.Category>RimAI.Quests</Ustas.RimAI.Quests.Settings.Category>
+    <Ustas.RimAI.Quests.Settings.EnableAIDescriptions>Enable AI Quest Descriptions</Ustas.RimAI.Quests.Settings.EnableAIDescriptions>
+    <Ustas.RimAI.Quests.Settings.EnableAIDescriptions.Desc>This mod will not work if disabled. Use this to check if errors are caused by this mod.</Ustas.RimAI.Quests.Settings.EnableAIDescriptions.Desc>
+    <Ustas.RimAI.Quests.Settings.VerboseDebugLogging>Verbose Debug Logging</Ustas.RimAI.Quests.Settings.VerboseDebugLogging>
+    <Ustas.RimAI.Quests.Settings.VerboseDebugLogging.Desc>Enable detailed debug logs including streaming chunks. Only works in Dev Mode.</Ustas.RimAI.Quests.Settings.VerboseDebugLogging.Desc>
+    <Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming>Clean closed think/reasoning tags during streaming</Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming>
+    <Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming.Desc>Enabled: remove closed think/reasoning blocks as they complete. Disabled: keep them visible until generation finishes, then clean once.</Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming.Desc>
+    <Ustas.RimAI.Quests.Settings.CustomQuestInstruction>Custom Quest Instruction:</Ustas.RimAI.Quests.Settings.CustomQuestInstruction>
+    <Ustas.RimAI.Quests.Settings.CustomQuestInstruction.Desc>Leave empty to use default. This will be appended to the shared RimAI instruction.</Ustas.RimAI.Quests.Settings.CustomQuestInstruction.Desc>
+    <Ustas.RimAI.Quests.Settings.ClearCache>Clear Cache</Ustas.RimAI.Quests.Settings.ClearCache>
+    <Ustas.RimAI.Quests.Settings.CacheCleared>Quest description cache cleared.</Ustas.RimAI.Quests.Settings.CacheCleared>
+    <Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>RimAI.Quests uses the shared RimAI text AI configuration.</Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>
+    <Ustas.RimAI.Quests.Settings.CurrentlyProcessing>Currently processing: {0} quests</Ustas.RimAI.Quests.Settings.CurrentlyProcessing>
 </LanguageData>

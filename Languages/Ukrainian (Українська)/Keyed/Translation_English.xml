@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <LanguageData>
   <!-- Settings -->
-  <RimTalkQuests.Settings.Category>RimTalk — Завдання</RimTalkQuests.Settings.Category>
-  <RimTalkQuests.Settings.EnableAIDescriptions>Увімкнути описи завдань ШІ</RimTalkQuests.Settings.EnableAIDescriptions>
-  <RimTalkQuests.Settings.EnableAIDescriptions.Desc>Цей мод не працюватиме, якщо його вимкнено. Використовуйте це, щоб перевірити, чи спричинені помилки цим модом.</RimTalkQuests.Settings.EnableAIDescriptions.Desc>
-  <RimTalkQuests.Settings.VerboseDebugLogging>Докладне налагоджувальне журналювання</RimTalkQuests.Settings.VerboseDebugLogging>
-  <RimTalkQuests.Settings.VerboseDebugLogging.Desc>Увімкнути докладні налагоджувальні журнали, зокрема частини потоку. Працює лише в режимі розробника.</RimTalkQuests.Settings.VerboseDebugLogging.Desc>
-  <RimTalkQuests.Settings.CleanThinkTagsDuringStreaming>Очищати закриті теги обдумування/міркування під час потокової генерації</RimTalkQuests.Settings.CleanThinkTagsDuringStreaming>
-  <RimTalkQuests.Settings.CleanThinkTagsDuringStreaming.Desc>Увімкнено: видаляти закриті блоки обдумування/міркування після їх завершення. Вимкнено: залишати їх видимими до завершення генерації, а потім очистити все разом.</RimTalkQuests.Settings.CleanThinkTagsDuringStreaming.Desc>
-  <RimTalkQuests.Settings.CustomQuestInstruction>Власна інструкція для завдання:</RimTalkQuests.Settings.CustomQuestInstruction>
-  <RimTalkQuests.Settings.CustomQuestInstruction.Desc>Залиште порожнім, щоб використовувати типове значення. Цю інструкцію буде додано до базової інструкції RimTalk.</RimTalkQuests.Settings.CustomQuestInstruction.Desc>
-  <RimTalkQuests.Settings.ClearCache>Очистити кеш</RimTalkQuests.Settings.ClearCache>
-  <RimTalkQuests.Settings.CacheCleared>Кеш описів завдань очищено.</RimTalkQuests.Settings.CacheCleared>
-  <RimTalkQuests.Settings.UsesRimTalkConfig>RimAI.Quests використовує спільну конфігурацію текстового ШІ RimAI.</RimTalkQuests.Settings.UsesRimTalkConfig>
-  <RimTalkQuests.Settings.CurrentlyProcessing>Наразі обробляються: {0} завдань</RimTalkQuests.Settings.CurrentlyProcessing>
+  <Ustas.RimAI.Quests.Settings.Category>RimAI.Quests</Ustas.RimAI.Quests.Settings.Category>
+  <Ustas.RimAI.Quests.Settings.EnableAIDescriptions>Увімкнути описи завдань ШІ</Ustas.RimAI.Quests.Settings.EnableAIDescriptions>
+  <Ustas.RimAI.Quests.Settings.EnableAIDescriptions.Desc>Цей мод не працюватиме, якщо його вимкнено. Використовуйте це, щоб перевірити, чи спричинені помилки цим модом.</Ustas.RimAI.Quests.Settings.EnableAIDescriptions.Desc>
+  <Ustas.RimAI.Quests.Settings.VerboseDebugLogging>Докладне налагоджувальне журналювання</Ustas.RimAI.Quests.Settings.VerboseDebugLogging>
+  <Ustas.RimAI.Quests.Settings.VerboseDebugLogging.Desc>Увімкнути докладні налагоджувальні журнали, зокрема частини потоку. Працює лише в режимі розробника.</Ustas.RimAI.Quests.Settings.VerboseDebugLogging.Desc>
+  <Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming>Очищати закриті теги обдумування/міркування під час потокової генерації</Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming>
+  <Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming.Desc>Увімкнено: видаляти закриті блоки обдумування/міркування після їх завершення. Вимкнено: залишати їх видимими до завершення генерації, а потім очистити все разом.</Ustas.RimAI.Quests.Settings.CleanThinkTagsDuringStreaming.Desc>
+  <Ustas.RimAI.Quests.Settings.CustomQuestInstruction>Власна інструкція для завдання:</Ustas.RimAI.Quests.Settings.CustomQuestInstruction>
+  <Ustas.RimAI.Quests.Settings.CustomQuestInstruction.Desc>Залиште порожнім, щоб використовувати типове значення. Цю інструкцію буде додано до спільної інструкції RimAI.</Ustas.RimAI.Quests.Settings.CustomQuestInstruction.Desc>
+  <Ustas.RimAI.Quests.Settings.ClearCache>Очистити кеш</Ustas.RimAI.Quests.Settings.ClearCache>
+  <Ustas.RimAI.Quests.Settings.CacheCleared>Кеш описів завдань очищено.</Ustas.RimAI.Quests.Settings.CacheCleared>
+  <Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>RimAI.Quests використовує спільну конфігурацію текстового ШІ RimAI.</Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>
+  <Ustas.RimAI.Quests.Settings.CurrentlyProcessing>Наразі обробляються: {0} завдань</Ustas.RimAI.Quests.Settings.CurrentlyProcessing>
 </LanguageData>
