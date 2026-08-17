@@ -5,6 +5,7 @@ using System.Text;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
+using Ustas.RimAI.Core.Handshake;
 using Ustas.RimAI.Core.Modules;
 using Verse;
 
@@ -20,6 +21,7 @@ namespace Ustas.RimAI.Quests
     [StaticConstructorOnStartup]
     public class RimTalkQuestsMod : Mod
     {
+        public const string HandshakeModuleVersion = "1.0.0";
         public static RimTalkQuestsMod Instance { get; private set; }
         public static Harmony HarmonyInstance { get; private set; }
         public static QuestSettings Settings { get; private set; }
@@ -28,6 +30,13 @@ namespace Ustas.RimAI.Quests
         {
             Instance = this;
             Settings = GetSettings<QuestSettings>();
+            RimAiHandshake.TryActivate(
+                RimAiHandshakeDescriptor.Current(RimAiModuleIds.Quests, HandshakeModuleVersion, isOptional: true),
+                Activate);
+        }
+
+        static void Activate()
+        {
             Ustas.RimAI.Core.Modules.RimAIModuleRegistry.Current.Register(
                 new Ustas.RimAI.Core.Modules.RimAIModuleDescriptor(
                     "quests",
@@ -37,31 +46,27 @@ namespace Ustas.RimAI.Quests
 
             Log.Message("[RimAI.Quests] Initializing...");
 
-            // Check if RimTalk is loaded
             if (!ModsConfig.IsActive("ustas.rimai.communication"))
             {
-                Log.Error(
-                    "[RimAI.Quests] RimTalk is not loaded! This mod requires RimTalk to function."
+                Log.Message(
+                    "[RimAI.Quests] Communication is not loaded; quest AI patches were not applied."
                 );
                 return;
             }
 
             try
             {
-                // Apply Harmony patches
                 HarmonyInstance = new Harmony("ustas.rimai.quests");
                 HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 
                 Log.Message(
                     "[RimAI.Quests] Successfully initialized with Harmony patches applied."
                 );
-                Log.Message(
-                    "[RimAI.Quests] Attribution: Based on RimTalk by juicy (CC BY-NC-SA 4.0)"
-                );
             }
             catch (Exception ex)
             {
                 Log.Error($"[RimAI.Quests] Failed to initialize: {ex}");
+                throw;
             }
         }
 
