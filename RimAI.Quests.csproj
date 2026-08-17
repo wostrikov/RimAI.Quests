@@ -43,6 +43,9 @@
         <ProjectReference Include="..\RimAI.Core\src\RimAI.Core\RimAI.Core.csproj">
             <Private>false</Private>
         </ProjectReference>
+        <ProjectReference Include="..\RimAI.Core\src\RimAI.RimWorld\RimAI.RimWorld.csproj">
+            <Private>false</Private>
+        </ProjectReference>
         <ProjectReference Include="..\RimAI.Communication\RimAI.Communication.csproj">
             <Private>false</Private>
         </ProjectReference>
@@ -75,6 +78,9 @@
         <Compile Remove="ref\**" />
         <EmbeddedResource Remove="ref\**" />
         <None Remove="ref\**" />
+        <Compile Remove="tests\**" />
+        <EmbeddedResource Remove="tests\**" />
+        <None Remove="tests\**" />
     </ItemGroup>
 
     <!-- Deploy to RimWorld client -->

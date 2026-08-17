@@ -14,4 +14,9 @@
   <Ustas.RimAI.Quests.Settings.CacheCleared>Кеш описів завдань очищено.</Ustas.RimAI.Quests.Settings.CacheCleared>
   <Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>RimAI.Quests використовує спільну конфігурацію текстового ШІ RimAI.</Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>
   <Ustas.RimAI.Quests.Settings.CurrentlyProcessing>Наразі обробляються: {0} завдань</Ustas.RimAI.Quests.Settings.CurrentlyProcessing>
+  <Ustas.RimAI.Quests.Settings.PageGeneral>Загальні</Ustas.RimAI.Quests.Settings.PageGeneral>
+  <Ustas.RimAI.Quests.Settings.PageInstruction>Інструкція</Ustas.RimAI.Quests.Settings.PageInstruction>
+  <Ustas.RimAI.Quests.Settings.Validation.Disabled>Описи завдань ШІ вимкнено.</Ustas.RimAI.Quests.Settings.Validation.Disabled>
+  <Ustas.RimAI.Quests.Settings.Validation.EmptyInstruction>Порожня інструкція використовує типовий текст.</Ustas.RimAI.Quests.Settings.Validation.EmptyInstruction>
+  <Ustas.RimAI.Quests.Settings.Validation.LegacyInstruction>Ця інструкція досі збігається зі спадковим англійським типовим текстом.</Ustas.RimAI.Quests.Settings.Validation.LegacyInstruction>
 </LanguageData>

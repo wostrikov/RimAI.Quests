@@ -14,4 +14,9 @@
     <Ustas.RimAI.Quests.Settings.CacheCleared>Quest description cache cleared.</Ustas.RimAI.Quests.Settings.CacheCleared>
     <Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>RimAI.Quests uses the shared RimAI text AI configuration.</Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>
     <Ustas.RimAI.Quests.Settings.CurrentlyProcessing>Currently processing: {0} quests</Ustas.RimAI.Quests.Settings.CurrentlyProcessing>
+    <Ustas.RimAI.Quests.Settings.PageGeneral>General</Ustas.RimAI.Quests.Settings.PageGeneral>
+    <Ustas.RimAI.Quests.Settings.PageInstruction>Instruction</Ustas.RimAI.Quests.Settings.PageInstruction>
+    <Ustas.RimAI.Quests.Settings.Validation.Disabled>AI quest descriptions are disabled.</Ustas.RimAI.Quests.Settings.Validation.Disabled>
+    <Ustas.RimAI.Quests.Settings.Validation.EmptyInstruction>Empty instruction uses the default text.</Ustas.RimAI.Quests.Settings.Validation.EmptyInstruction>
+    <Ustas.RimAI.Quests.Settings.Validation.LegacyInstruction>This instruction still matches the legacy English default.</Ustas.RimAI.Quests.Settings.Validation.LegacyInstruction>
 </LanguageData>

@@ -14,4 +14,9 @@
     <Ustas.RimAI.Quests.Settings.CacheCleared>任务描述缓存已清除。</Ustas.RimAI.Quests.Settings.CacheCleared>
     <Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>RimTalk-Quests 使用您现有的 RimTalk AI 配置。</Ustas.RimAI.Quests.Settings.UsesRimTalkConfig>
     <Ustas.RimAI.Quests.Settings.CurrentlyProcessing>当前正在处理：{0} 个任务</Ustas.RimAI.Quests.Settings.CurrentlyProcessing>
+    <Ustas.RimAI.Quests.Settings.PageGeneral>常规</Ustas.RimAI.Quests.Settings.PageGeneral>
+    <Ustas.RimAI.Quests.Settings.PageInstruction>指令</Ustas.RimAI.Quests.Settings.PageInstruction>
+    <Ustas.RimAI.Quests.Settings.Validation.Disabled>AI 任务描述已禁用。</Ustas.RimAI.Quests.Settings.Validation.Disabled>
+    <Ustas.RimAI.Quests.Settings.Validation.EmptyInstruction>空指令将使用默认文本。</Ustas.RimAI.Quests.Settings.Validation.EmptyInstruction>
+    <Ustas.RimAI.Quests.Settings.Validation.LegacyInstruction>该指令仍与旧版英文默认文本相同。</Ustas.RimAI.Quests.Settings.Validation.LegacyInstruction>
 </LanguageData>
