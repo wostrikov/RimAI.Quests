@@ -223,8 +223,10 @@ namespace Ustas.RimAI.Quests.Services
                                             sb.AppendLine();
                                         }
                                     }
-                                    catch
+                                    // RimAI.catch-boundary: ALLOWED_TOP_LEVEL_BOUNDARY — broken reward defs must not abort quest prompt
+                                    catch (Exception ex)
                                     {
+                                        Log.WarningOnce("[RimAI.Quests] Reward description failed: " + ex, reward.GetHashCode());
                                         sb.AppendLine(
                                             $"    - {reward.GetType().Name} (description unavailable)"
                                         );
@@ -478,7 +480,11 @@ namespace Ustas.RimAI.Quests.Services
                     .Replace("\\n", "\n")
                     .Replace("\\\"", "\"");
             }
-            catch
+            catch (ArgumentOutOfRangeException)
+            {
+                return null;
+            }
+            catch (ArgumentException)
             {
                 return null;
             }
