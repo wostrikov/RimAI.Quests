@@ -1,34 +1,21 @@
-using Verse;
+using Ustas.RimAI.Core.Diagnostics;
 
 namespace Ustas.RimAI.Quests.Util;
 
 public static class QuestLogger
 {
-    private const string ModTag = "[RimAI.Quests]";
+    public static void Message(object message) =>
+        RimAiLog.Info(RimAiLogCategory.Quests, message?.ToString() ?? string.Empty);
 
-    public static void Message(object message)
-    {
-        Log.Message($"{ModTag} {message}\n\n");
-    }
+    public static void Debug(object message) =>
+        RimAiLog.Debug(RimAiLogCategory.Quests, message?.ToString() ?? string.Empty);
 
-    public static void Debug(object message)
-    {
-        if (Prefs.LogVerbose)
-            Log.Message($"{ModTag} {message}\n\n");
-    }
+    public static void Warning(object message) =>
+        RimAiLog.Warning(RimAiLogCategory.Quests, message?.ToString() ?? string.Empty);
 
-    public static void Warning(object message)
-    {
-        Log.Warning($"{ModTag} {message}\n\n");
-    }
+    public static void Error(object message) =>
+        RimAiLog.Error(RimAiLogCategory.Quests, message?.ToString() ?? string.Empty);
 
-    public static void Error(object message)
-    {
-        Log.Error($"{ModTag} {message}\n\n");
-    }
-
-    public static void ErrorOnce(object text, int key)
-    {
-        Log.ErrorOnce($"{ModTag} {text}\n\n", key);
-    }
+    public static void ErrorOnce(object text, int key) =>
+        RimAiLog.ErrorOnce(RimAiLogCategory.Quests, text?.ToString() ?? string.Empty, key);
 }

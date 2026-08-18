@@ -10,6 +10,7 @@ using Ustas.RimAI.Core.Net;
 using Ustas.RimAI.Core.Player2;
 using Ustas.RimAI.Quests.Util;
 using Verse;
+using Ustas.RimAI.Core.Diagnostics;
 
 namespace Ustas.RimAI.Quests.Services.Streaming
 {
@@ -125,7 +126,7 @@ namespace Ustas.RimAI.Quests.Services.Streaming
         {
             if (Prefs.DevMode)
             {
-                Log.Message(
+                RimAiLog.Info(RimAiLogCategory.Quests, 
                     $"[RimAI.Quests] Request URL ({(isLocal ? "local" : "remote")}): {url}"
                 );
             }

@@ -11,6 +11,7 @@ using Ustas.RimAI.Communication.Util;
 using Ustas.RimAI.Quests.Util;
 using Ustas.RimAI.Core.AI;
 using Verse;
+using Ustas.RimAI.Core.Diagnostics;
 
 namespace Ustas.RimAI.Quests.Services.Streaming
 {
@@ -154,7 +155,7 @@ namespace Ustas.RimAI.Quests.Services.Streaming
 
             if (Prefs.DevMode)
             {
-                Log.Message($"[RimAI.Quests] Request URL: {endpointUrl}");
+                RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] Request URL: {endpointUrl}");
             }
 
             QuestLogger.Debug($"API request: {endpointUrl}\n{jsonContent}");

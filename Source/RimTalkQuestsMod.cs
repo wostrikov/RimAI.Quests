@@ -6,6 +6,7 @@ using Ustas.RimAI.Core.Handshake;
 using Ustas.RimAI.Core.Modules;
 using UnityEngine;
 using Verse;
+using Ustas.RimAI.Core.Diagnostics;
 
 namespace Ustas.RimAI.Quests
 {
@@ -42,11 +43,11 @@ namespace Ustas.RimAI.Quests
                     "RimAI.Quests",
                     "Quests"));
 
-            Log.Message("[RimAI.Quests] Initializing...");
+            RimAiLog.Info(RimAiLogCategory.Quests, "[RimAI.Quests] Initializing...");
 
             if (!ModsConfig.IsActive("ustas.rimai.communication"))
             {
-                Log.Message(
+                RimAiLog.Info(RimAiLogCategory.Quests, 
                     "[RimAI.Quests] Communication is not loaded; quest AI patches were not applied."
                 );
                 return;
@@ -57,13 +58,13 @@ namespace Ustas.RimAI.Quests
                 HarmonyInstance = new Harmony("ustas.rimai.quests");
                 HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 
-                Log.Message(
+                RimAiLog.Info(RimAiLogCategory.Quests, 
                     "[RimAI.Quests] Successfully initialized with Harmony patches applied."
                 );
             }
             catch (Exception ex)
             {
-                Log.Error($"[RimAI.Quests] Failed to initialize: {ex}");
+                RimAiLog.Error(RimAiLogCategory.Quests, $"[RimAI.Quests] Failed to initialize: {ex}");
                 throw;
             }
         }

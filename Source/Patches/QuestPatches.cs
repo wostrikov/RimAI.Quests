@@ -3,6 +3,7 @@ using HarmonyLib;
 using RimWorld;
 using RimWorld.QuestGen;
 using Verse;
+using Ustas.RimAI.Core.Diagnostics;
 
 namespace Ustas.RimAI.Quests.Patches
 {
@@ -35,7 +36,7 @@ namespace Ustas.RimAI.Quests.Patches
                 if (!Services.QuestDescriptionGenerator.IsAIServiceAvailable())
                 {
                     if (Prefs.DevMode)
-                        Log.Warning(
+                        RimAiLog.Warning(RimAiLogCategory.Quests, 
                             "[RimAI.Quests] AI service not available. Make sure RimTalk is configured with an API key."
                         );
                     return;
@@ -47,7 +48,7 @@ namespace Ustas.RimAI.Quests.Patches
             }
             catch (Exception ex)
             {
-                Log.Error($"[RimAI.Quests] Error in quest post added patch: {ex}");
+                RimAiLog.Error(RimAiLogCategory.Quests, $"[RimAI.Quests] Error in quest post added patch: {ex}");
             }
         }
     }

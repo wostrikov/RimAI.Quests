@@ -11,6 +11,7 @@ using Ustas.RimAI.Communication.Data;
 using Ustas.RimAI.Communication.Util;
 using Ustas.RimAI.Quests.Services.Streaming;
 using Verse;
+using Ustas.RimAI.Core.Diagnostics;
 
 namespace Ustas.RimAI.Quests.Services
 {
@@ -50,7 +51,7 @@ namespace Ustas.RimAI.Quests.Services
 
                 if (Prefs.DevMode)
                 {
-                    Log.Message(
+                    RimAiLog.Info(RimAiLogCategory.Quests, 
                         $"[RimAI.Quests] Generating AI description for quest: {quest.name}"
                     );
                 }
@@ -63,9 +64,9 @@ namespace Ustas.RimAI.Quests.Services
                 {
                     var config = Ustas.RimAI.Communication.Settings.Get().GetActiveConfig();
                     var model = config?.SelectedModel ?? "Unknown";
-                    Log.Message($"[RimAI.Quests] Using model: {model}");
-                    Log.Message($"[RimAI.Quests] Instruction:\n{instruction}");
-                    Log.Message($"[RimAI.Quests] Prompt:\n{prompt}");
+                    RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] Using model: {model}");
+                    RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] Instruction:\n{instruction}");
+                    RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] Prompt:\n{prompt}");
                 }
 
                 // Store original description
@@ -76,7 +77,7 @@ namespace Ustas.RimAI.Quests.Services
 
                 if (Prefs.DevMode && result != null)
                 {
-                    Log.Message($"[RimAI.Quests] AI Response (processed):\n{result}");
+                    RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] AI Response (processed):\n{result}");
                 }
 
                 // Streaming already updated the description in real-time
@@ -84,7 +85,7 @@ namespace Ustas.RimAI.Quests.Services
                 if (result != null)
                 {
                     if (Prefs.DevMode)
-                        Log.Message($"[RimAI.Quests] Successfully enhanced quest: {quest.name}");
+                        RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] Successfully enhanced quest: {quest.name}");
                 }
                 else
                 {
@@ -93,7 +94,7 @@ namespace Ustas.RimAI.Quests.Services
 
                     if (Prefs.DevMode)
                     {
-                        Log.Warning(
+                        RimAiLog.Warning(RimAiLogCategory.Quests, 
                             $"[RimAI.Quests] Failed to generate enhancement for quest: {quest.name}"
                         );
                     }
@@ -101,7 +102,7 @@ namespace Ustas.RimAI.Quests.Services
             }
             catch (Exception ex)
             {
-                Log.Error($"[RimAI.Quests] Error generating quest description: {ex}");
+                RimAiLog.Error(RimAiLogCategory.Quests, $"[RimAI.Quests] Error generating quest description: {ex}");
             }
             finally
             {
@@ -226,7 +227,7 @@ namespace Ustas.RimAI.Quests.Services
                                     // RimAI.catch-boundary: ALLOWED_TOP_LEVEL_BOUNDARY — broken reward defs must not abort quest prompt
                                     catch (Exception ex)
                                     {
-                                        Log.WarningOnce("[RimAI.Quests] Reward description failed: " + ex, reward.GetHashCode());
+                                        RimAiLog.WarningOnce(RimAiLogCategory.Quests, "[RimAI.Quests] Reward description failed: " + ex, reward.GetHashCode());
                                         sb.AppendLine(
                                             $"    - {reward.GetType().Name} (description unavailable)"
                                         );
@@ -354,7 +355,7 @@ namespace Ustas.RimAI.Quests.Services
             var client = await AIClientFactory.GetAIClientAsync();
             if (client == null)
             {
-                Log.Warning(
+                RimAiLog.Warning(RimAiLogCategory.Quests, 
                     "[RimAI.Quests] Failed to get AI client - check RimTalk configuration"
                 );
                 return null;
@@ -371,8 +372,8 @@ namespace Ustas.RimAI.Quests.Services
 
             if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
             {
-                Log.Message("[RimAI.Quests] Starting plain text streaming API call...");
-                Log.Message(
+                RimAiLog.Info(RimAiLogCategory.Quests, "[RimAI.Quests] Starting plain text streaming API call...");
+                RimAiLog.Info(RimAiLogCategory.Quests, 
                     $"[RimAI.Quests] Post-process mode: {(cleanDuringStreaming ? "real-time" : "final-only")}"
                 );
             }
@@ -387,7 +388,7 @@ namespace Ustas.RimAI.Quests.Services
 
                     if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
                     {
-                        Log.Message(
+                        RimAiLog.Info(RimAiLogCategory.Quests, 
                             $"[RimAI.Quests] Chunk #{chunkCount} received: [{chunk?.Length ?? 0} chars] '{chunk}'"
                         );
                     }
@@ -407,7 +408,7 @@ namespace Ustas.RimAI.Quests.Services
 
                         if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
                         {
-                            Log.Message(
+                            RimAiLog.Info(RimAiLogCategory.Quests, 
                                 $"[RimAI.Quests] Updated quest.description (display chars: {displayContent.Length}, raw chars: {postProcessor.GetRawText().Length})"
                             );
                         }
@@ -417,7 +418,7 @@ namespace Ustas.RimAI.Quests.Services
 
             if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
             {
-                Log.Message(
+                RimAiLog.Info(RimAiLogCategory.Quests, 
                     $"[RimAI.Quests] Streaming completed. Total chunks: {chunkCount}, Final raw length: {postProcessor.GetRawText().Length}"
                 );
             }
@@ -435,7 +436,7 @@ namespace Ustas.RimAI.Quests.Services
 
             if (Prefs.DevMode)
             {
-                Log.Message($"[RimAI.Quests] AI Response (raw):\n{finalRawText}");
+                RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] AI Response (raw):\n{finalRawText}");
             }
 
             var finalProcessedText = postProcessor.ProcessFinal(finalRawText);
