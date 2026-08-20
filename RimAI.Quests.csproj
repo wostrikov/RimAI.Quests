@@ -89,8 +89,14 @@
         <CallTarget Targets="MacDeploy" Condition=" '$(OS)' != 'Windows_NT' "/>
     </Target>
 
+    <!-- Stage primary assembly into versioned Assemblies before MIR. -->
+    <Target Name="StageModAssemblies">
+        <MakeDir Directories="$(ProjectDir)$(GameVersion)\Assemblies" />
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ProjectDir)$(GameVersion)\Assemblies\" SkipUnchangedFiles="true" />
+    </Target>
+
     <!-- Deploy to RimWorld client (macOS) -->
-    <Target Name="MacDeploy">
+    <Target Name="MacDeploy" DependsOnTargets="StageModAssemblies">
         <PropertyGroup>
             <DeployPath>$(RimWorldDir)/RimWorldMac.app/Mods/$(ModFolderName)/</DeployPath>
         </PropertyGroup>
@@ -104,7 +110,7 @@
     </Target>
 
     <!-- Deploy to RimWorld client (Windows) -->
-    <Target Name="WinDeploy">
+    <Target Name="WinDeploy" DependsOnTargets="StageModAssemblies">
         <PropertyGroup>
             <WinModPath>$(RimWorldDir)\Mods\$(ModFolderName)\</WinModPath>
         </PropertyGroup>
