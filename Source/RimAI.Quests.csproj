@@ -48,7 +48,7 @@
         <ProjectReference Include="..\..\RimAI.Core\src\RimAI.RimWorld\RimAI.RimWorld.csproj">
             <Private>false</Private>
         </ProjectReference>
-        <ProjectReference Include="..\..\RimAI.Communication\RimAI.Communication.csproj">
+        <ProjectReference Include="..\..\RimAI.Communication\Source\RimAI.Communication.csproj">
             <Private>false</Private>
         </ProjectReference>
     </ItemGroup>
@@ -131,4 +131,5 @@
     </Target>
 
 </Project>
+
 
