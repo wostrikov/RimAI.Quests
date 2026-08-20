@@ -58,7 +58,7 @@ if ($UseNuGet) {
     # Build with NuGet packages (no local DLLs required)
     $buildArgs = @(
         "build",
-        "RimAI.Quests.csproj",
+        "Source\RimAI.Quests.csproj",
         "/p:GameVersion=$GameVersion",
         "/p:Configuration=$Configuration",
         "/p:UseLocalDlls=false"
@@ -67,7 +67,7 @@ if ($UseNuGet) {
     # Build with local DLLs (full static analysis)
     $buildArgs = @(
         "build",
-        "RimAI.Quests.csproj",
+        "Source\RimAI.Quests.csproj",
         "/p:GameVersion=$GameVersion",
         "/p:Configuration=$Configuration",
         "/p:RimWorldDir=$RimWorldPath",
@@ -96,3 +96,4 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "========================================" -ForegroundColor Red
     exit $LASTEXITCODE
 }
+
