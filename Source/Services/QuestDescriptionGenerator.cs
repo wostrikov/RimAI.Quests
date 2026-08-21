@@ -15,11 +15,6 @@ using Ustas.RimAI.Core.Diagnostics;
 
 namespace Ustas.RimAI.Quests.Services
 {
-    /// <summary>
-    /// Service for generating AI-powered quest descriptions.
-    /// This service integrates with RimTalk's AI functionality to create
-    /// dynamic, context-aware quest narratives.
-    /// </summary>
     public static class QuestDescriptionGenerator
     {
         private static readonly HashSet<int> _processingQuests = new HashSet<int>();
@@ -72,7 +67,6 @@ namespace Ustas.RimAI.Quests.Services
                 // Store original description
                 var originalDescription = quest.description.ToString();
 
-                // Call RimTalk's AI service with streaming
                 var result = await CallRimTalkAI(instruction, prompt, quest);
 
                 if (Prefs.DevMode && result != null)
@@ -110,14 +104,10 @@ namespace Ustas.RimAI.Quests.Services
             }
         }
 
-        /// <summary>
-        /// Builds the system instruction for the AI based on RimTalk's configuration
-        /// </summary>
         private static string BuildSystemInstruction()
         {
             var settings = Ustas.RimAI.Communication.Settings.Get();
 
-            // Get base instruction from RimTalk (respects user customization)
             var baseInstruction = string.IsNullOrWhiteSpace(settings.CustomInstruction)
                 ? Ustas.RimAI.Communication.Data.Constant.DefaultInstruction
                 : settings.CustomInstruction;
@@ -240,9 +230,6 @@ namespace Ustas.RimAI.Quests.Services
             }
         }
 
-        /// <summary>
-        /// Appends scene context (time, weather, location, wealth) like RimTalk
-        /// </summary>
         private static void AppendSceneContext(StringBuilder sb)
         {
             var gameData = CommonUtil.GetInGameData();
@@ -279,7 +266,6 @@ namespace Ustas.RimAI.Quests.Services
         /// </summary>
         private static void AppendFactionContext(StringBuilder sb, Quest quest)
         {
-            // Get involved factions
             var factions = quest.InvolvedFactions?.ToList();
             if (factions == null || factions.Count == 0)
                 return;
@@ -342,16 +328,12 @@ namespace Ustas.RimAI.Quests.Services
             }
         }
 
-        /// <summary>
-        /// Calls RimTalk's AI service to generate quest enhancement using streaming
-        /// </summary>
         private static async Task<string> CallRimTalkAI(
             string instruction,
             string prompt,
             Quest quest
         )
         {
-            // Get AI client from RimTalk
             var client = await AIClientFactory.GetAIClientAsync();
             if (client == null)
             {
@@ -491,15 +473,11 @@ namespace Ustas.RimAI.Quests.Services
             }
         }
 
-        /// <summary>
-        /// Checks if RimTalk's AI service is available and configured
-        /// </summary>
         public static bool IsAIServiceAvailable()
         {
             if (!ModsConfig.IsActive("ustas.rimai.communication"))
                 return false;
 
-            // Check if RimTalk has an active configuration
             var settings = Ustas.RimAI.Communication.Settings.Get();
             var activeConfig = settings?.GetActiveConfig();
 

@@ -22,10 +22,6 @@ namespace Ustas.RimAI.Quests.Services.Streaming
     {
         public Player2StreamingClient(IAIClient client) : base(client) { }
 
-        /// <summary>
-        /// Stream chat completion using settings from RimTalk configuration.
-        /// Automatically tries local Player2 app first, falls back to configured API key.
-        /// </summary>
         public override async Task<Payload> StreamFromSettingsAsync(
             string instruction,
             List<(Role role, string message)> messages,

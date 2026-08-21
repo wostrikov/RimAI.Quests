@@ -32,7 +32,6 @@ namespace Ustas.RimAI.Quests.Patches
                 if (__instance.hidden)
                     return;
 
-                // Check if RimTalk is properly configured
                 if (!Services.QuestDescriptionGenerator.IsAIServiceAvailable())
                 {
                     if (Prefs.DevMode)

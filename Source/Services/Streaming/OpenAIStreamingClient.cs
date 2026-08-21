@@ -22,9 +22,6 @@ namespace Ustas.RimAI.Quests.Services.Streaming
     {
         public OpenAIStreamingClient(IAIClient client) : base(client) { }
 
-        /// <summary>
-        /// Stream chat completion using settings from RimTalk configuration
-        /// </summary>
         public override async Task<Payload> StreamFromSettingsAsync(
             string instruction,
             List<(Role role, string message)> messages,
@@ -35,9 +32,6 @@ namespace Ustas.RimAI.Quests.Services.Streaming
             if (!string.IsNullOrWhiteSpace(instruction))
                 prefixMessages.Add((Role.System, instruction));
 
-            // RimTalk owns provider, credential, model and request-adapter semantics.
-            // Its official OpenAI adapter currently returns one complete response,
-            // which is still a valid text chunk for the quest's progressive UI.
             var payload = await Client.GetChatCompletionAsync(prefixMessages, messages);
             SafeChunkCallback(onTextChunkReceived)(payload?.Response);
             return payload;
