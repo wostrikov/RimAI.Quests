@@ -21,5 +21,7 @@
     <Compile Include="..\..\Source\Settings\QuestSettingsLegacy.cs" Link="Settings\QuestSettingsLegacy.cs" />
     <Compile Include="..\..\Source\Settings\QuestSettingsModel.cs" Link="Settings\QuestSettingsModel.cs" />
     <Compile Include="..\..\Source\Settings\QuestSettingsPolicy.cs" Link="Settings\QuestSettingsPolicy.cs" />
+    <Compile Include="..\..\Source\Policy\QuestAppendPolicy.cs" Link="Policy\QuestAppendPolicy.cs" />
+    <None Include="..\..\Source\Services\QuestDescriptionGenerator.cs" Link="QuestDescriptionGenerator.cs.src" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

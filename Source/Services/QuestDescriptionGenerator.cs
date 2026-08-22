@@ -9,6 +9,7 @@ using RimWorld.QuestGen;
 using Ustas.RimAI.Communication.Client;
 using Ustas.RimAI.Communication.Data;
 using Ustas.RimAI.Communication.Util;
+using Ustas.RimAI.Quests.Policy;
 using Ustas.RimAI.Quests.Services.Streaming;
 using Verse;
 using Ustas.RimAI.Core.Diagnostics;
@@ -83,8 +84,7 @@ namespace Ustas.RimAI.Quests.Services
                 }
                 else
                 {
-                    // Restore original description on failure
-                    quest.description = new TaggedString(originalDescription);
+                    quest.description = new TaggedString(QuestAppendPolicy.Restore(originalDescription));
 
                     if (Prefs.DevMode)
                     {
@@ -383,10 +383,8 @@ namespace Ustas.RimAI.Quests.Services
                             ? postProcessor.GetProcessedText()
                             : postProcessor.GetRawText();
 
-                        // Update quest description in real-time
-                        var enhancedDescription =
-                            originalDescription + "\n\n───────────\n\n" + displayContent;
-                        quest.description = new TaggedString(enhancedDescription);
+                        quest.description = new TaggedString(
+                            QuestAppendPolicy.Compose(originalDescription, displayContent));
 
                         if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
                         {
@@ -422,8 +420,8 @@ namespace Ustas.RimAI.Quests.Services
             }
 
             var finalProcessedText = postProcessor.ProcessFinal(finalRawText);
-            var finalDescription = originalDescription + "\n\n───────────\n\n" + finalProcessedText;
-            quest.description = new TaggedString(finalDescription);
+            quest.description = new TaggedString(
+                QuestAppendPolicy.Compose(originalDescription, finalProcessedText));
 
             return finalProcessedText;
         }
