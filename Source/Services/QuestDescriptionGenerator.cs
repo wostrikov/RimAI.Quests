@@ -383,8 +383,7 @@ namespace Ustas.RimAI.Quests.Services
                             ? postProcessor.GetProcessedText()
                             : postProcessor.GetRawText();
 
-                        quest.description = new TaggedString(
-                            QuestAppendPolicy.Compose(originalDescription, displayContent));
+                        ApplyStreamingDisplay(quest, originalDescription, displayContent);
 
                         if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
                         {
@@ -420,10 +419,21 @@ namespace Ustas.RimAI.Quests.Services
             }
 
             var finalProcessedText = postProcessor.ProcessFinal(finalRawText);
-            quest.description = new TaggedString(
-                QuestAppendPolicy.Compose(originalDescription, finalProcessedText));
+            ApplyStreamingDisplay(quest, originalDescription, finalProcessedText);
 
             return finalProcessedText;
+        }
+
+        /// <summary>
+        /// Authoritative streaming UI write. Each chunk recomposes from the
+        /// original description plus the accumulated enhancement.
+        /// </summary>
+        public static void ApplyStreamingDisplay(Quest quest, string originalDescription, string displayContent)
+        {
+            if (quest == null)
+                return;
+            quest.description = new TaggedString(
+                QuestAppendPolicy.Compose(originalDescription, displayContent));
         }
 
         /// <summary>

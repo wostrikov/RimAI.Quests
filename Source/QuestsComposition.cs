@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using HarmonyLib;
+using Ustas.RimAI.Quests.Integration;
 using Ustas.RimAI.Core.Composition;
 using Ustas.RimAI.Core.Diagnostics;
 using Ustas.RimAI.Core.Handshake;
@@ -35,6 +36,7 @@ public sealed class QuestsComposition : IRimAiModuleComposition
                 "Quests"));
 
         RimAiLog.Info(RimAiLogCategory.Quests, "[RimAI.Quests] Initializing...");
+        QuestPipelineProbe.Register();
 
         if (!ModsConfig.IsActive("ustas.rimai.communication"))
         {

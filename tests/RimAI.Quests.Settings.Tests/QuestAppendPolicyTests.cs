@@ -84,6 +84,7 @@ public sealed class QuestAppendPolicyTests
         string source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "QuestDescriptionGenerator.cs.src"));
         Assert.Contains("QuestAppendPolicy.Compose", source);
         Assert.Contains("QuestAppendPolicy.Restore", source);
+        Assert.Contains("ApplyStreamingDisplay", source);
         Assert.DoesNotContain("originalDescription + \"\\n\\n───────────\\n\\n\"", source);
     }
 
