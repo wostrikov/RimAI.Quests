@@ -1,5 +1,5 @@
 using System.Text;
-using System.Text.RegularExpressions;
+using Ustas.RimAI.Quests.Policy;
 
 namespace Ustas.RimAI.Quests.Services.Streaming
 {
@@ -9,22 +9,6 @@ namespace Ustas.RimAI.Quests.Services.Streaming
     /// </summary>
     public class ThinkReasoningPostProcessor
     {
-        private static readonly Regex[] ClosedBlockPatterns =
-        {
-            new Regex(
-                @"<\s*(think|thought|thinking|reasoning|analysis)\b[^>]*>.*?<\s*/\s*\1\s*>",
-                RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled
-            ),
-            new Regex(
-                @"\[(think|thought|thinking|reasoning|analysis)\].*?\[/\1\]",
-                RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled
-            ),
-            new Regex(
-                @"```\s*(think|thought|thinking|reasoning|analysis)[^\n]*\n.*?```",
-                RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled
-            )
-        };
-
         private readonly StringBuilder _rawBuffer = new StringBuilder();
         private string _cachedProcessed = string.Empty;
         private bool _dirty = true;
@@ -52,12 +36,7 @@ namespace Ustas.RimAI.Quests.Services.Streaming
                 return _cachedProcessed;
             }
 
-            string processed = _rawBuffer.ToString();
-            foreach (var regex in ClosedBlockPatterns)
-            {
-                processed = regex.Replace(processed, string.Empty);
-            }
-
+            string processed = QuestResponseSanitizePolicy.StripThinkBlocks(_rawBuffer.ToString());
             _cachedProcessed = processed;
             _dirty = false;
             return _cachedProcessed;

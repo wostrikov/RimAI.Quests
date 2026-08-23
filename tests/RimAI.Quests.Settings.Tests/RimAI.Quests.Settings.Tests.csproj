@@ -22,6 +22,10 @@
     <Compile Include="..\..\Source\Settings\QuestSettingsModel.cs" Link="Settings\QuestSettingsModel.cs" />
     <Compile Include="..\..\Source\Settings\QuestSettingsPolicy.cs" Link="Settings\QuestSettingsPolicy.cs" />
     <Compile Include="..\..\Source\Policy\QuestAppendPolicy.cs" Link="Policy\QuestAppendPolicy.cs" />
+    <Compile Include="..\..\Source\Policy\QuestContextBundlePolicy.cs" Link="Policy\QuestContextBundlePolicy.cs" />
+    <Compile Include="..\..\Source\Policy\QuestResponseSanitizePolicy.cs" Link="Policy\QuestResponseSanitizePolicy.cs" />
+    <Compile Include="..\..\Source\Policy\QuestRateLimitCachePolicy.cs" Link="Policy\QuestRateLimitCachePolicy.cs" />
     <None Include="..\..\Source\Services\QuestDescriptionGenerator.cs" Link="QuestDescriptionGenerator.cs.src" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\Source\Services\Streaming\ThinkReasoningPostProcessor.cs" Link="ThinkReasoningPostProcessor.cs.src" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

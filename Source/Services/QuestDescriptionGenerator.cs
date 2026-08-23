@@ -19,12 +19,14 @@ namespace Ustas.RimAI.Quests.Services
     public static class QuestDescriptionGenerator
     {
         private static readonly HashSet<int> _processingQuests = new HashSet<int>();
+        private static readonly QuestDescriptionResultCache _results = new QuestDescriptionResultCache();
 
         public static int ProcessingCount => _processingQuests.Count;
 
         public static void ClearCache()
         {
             _processingQuests.Clear();
+            _results.Clear();
         }
 
         /// <summary>
@@ -38,9 +40,21 @@ namespace Ustas.RimAI.Quests.Services
                     return;
 
                 int questId = quest.id;
+                bool hasCached = _results.TryGet(questId, out var cachedEnhancement);
+                var decision = QuestRateLimitCachePolicy.Decide(
+                    hasCached,
+                    _processingQuests.Contains(questId),
+                    _results.IsRateLimited(questId));
 
-                // Skip if already processing
-                if (_processingQuests.Contains(questId))
+                if (decision.UseCached)
+                {
+                    string current = quest.description.ToString();
+                    if (current.IndexOf(cachedEnhancement, StringComparison.Ordinal) < 0)
+                        ApplyStreamingDisplay(quest, current, cachedEnhancement);
+                    return;
+                }
+
+                if (!decision.CallProvider)
                     return;
 
                 _processingQuests.Add(questId);
@@ -79,6 +93,7 @@ namespace Ustas.RimAI.Quests.Services
                 // The result is just for logging/verification
                 if (result != null)
                 {
+                    _results.Store(questId, result);
                     if (Prefs.DevMode)
                         RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] Successfully enhanced quest: {quest.name}");
                 }
@@ -127,33 +142,36 @@ namespace Ustas.RimAI.Quests.Services
         /// </summary>
         private static string BuildQuestPrompt(Quest quest)
         {
+            return QuestContextBundlePolicy.Assemble(new QuestContextBundle
+            {
+                Title = quest.name,
+                Description = quest.description.ToString(),
+                Type = quest.root?.defName,
+                Challenge = quest.challengeRating > 0 ? quest.challengeRating.ToString() : null,
+                RewardsBlock = FormatQuestRewards(quest),
+                SceneBlock = FormatSceneContext(),
+                FactionsBlock = FormatFactionContext(quest)
+            });
+        }
+
+        static string FormatQuestRewards(Quest quest)
+        {
             var sb = new StringBuilder();
-
-            // Quest basic info
-            sb.AppendLine($"Quest Title: {quest.name}");
-            sb.AppendLine($"Quest Description: {quest.description}");
-            sb.AppendLine();
-
-            // Quest metadata
-            if (quest.root != null)
-            {
-                sb.AppendLine($"Type: {quest.root.defName}");
-            }
-
-            if (quest.challengeRating > 0)
-            {
-                sb.AppendLine($"Challenge: {quest.challengeRating}");
-            }
-
-            // Quest rewards
             AppendQuestRewards(sb, quest);
+            return sb.ToString();
+        }
 
-            // Scene information (reusing Ustas.RimAI.Communication's mechanism)
+        static string FormatSceneContext()
+        {
+            var sb = new StringBuilder();
             AppendSceneContext(sb);
+            return sb.ToString();
+        }
 
-            // Faction history context
+        static string FormatFactionContext(Quest quest)
+        {
+            var sb = new StringBuilder();
             AppendFactionContext(sb, quest);
-
             return sb.ToString();
         }
 
@@ -400,6 +418,14 @@ namespace Ustas.RimAI.Quests.Services
                 RimAiLog.Info(RimAiLogCategory.Quests, 
                     $"[RimAI.Quests] Streaming completed. Total chunks: {chunkCount}, Final raw length: {postProcessor.GetRawText().Length}"
                 );
+            }
+
+            if (payload != null
+                && !string.IsNullOrEmpty(payload.ErrorMessage)
+                && (payload.ErrorMessage.IndexOf("429", StringComparison.Ordinal) >= 0
+                    || payload.ErrorMessage.IndexOf("RateLimit", StringComparison.OrdinalIgnoreCase) >= 0))
+            {
+                _results.MarkRateLimited(quest.id);
             }
 
             var finalRawText = payload?.Response;
