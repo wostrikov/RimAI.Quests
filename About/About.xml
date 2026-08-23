@@ -3,16 +3,15 @@
 	<packageId>ustas.rimai.quests</packageId>
 	<name>RimAI.Quests</name>
 	<author>Laurence042</author>
-	<description>RimAI.Quests appends narrative context to RimWorld quests. It does not replace original quest parameters.
+	<description>RimAI.Quests додає наративний контекст до завдань RimWorld. Оригінальні параметри квесту не замінює.
 
-Features:
-• Shared RimAI gameplay text-AI configuration
-• Streaming narrative appended below the original quest text
-• Colony-aware context for generated backstory
+Основні можливості:
+• текст історії з’являється під оригінальним описом квесту
+• враховує стан колонії
 
-Requirements: Harmony and RimAI.Communication. Configure the shared RimAI provider; this module does not own a second gameplay credential.
+Потрібні Harmony та RimAI.Communication. Текстовий ШІ — зі спільних налаштувань RimAI.
 
-Attribution: derived from Laurence042 / RimTalk---Quests work under CC BY-NC-SA 4.0. The live product name is RimAI.Quests.</description>
+Подяка: Laurence042 / RimTalk---Quests, CC BY-NC-SA 4.0.</description>
 	<supportedVersions>
 		<li>1.6</li>
 	</supportedVersions>
