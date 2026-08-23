@@ -3,47 +3,16 @@
 	<packageId>ustas.rimai.quests</packageId>
 	<name>RimAI.Quests</name>
 	<author>Laurence042</author>
-	<description>
-[h2]赋予任务以温度 | Bringing Humanity to Quests[/h2]
+	<description>RimAI.Quests appends narrative context to RimWorld quests. It does not replace original quest parameters.
 
-[b]当你看到“寻求帮助的流浪者”时，你脑子里想的是一段故事，还是一堆行走的器官？[/b] [b]When you see "Traveler seeking help," do you see a story unfolding, or just a walking pile of organs?[/b]
+Features:
+• Shared RimAI gameplay text-AI configuration
+• Streaming narrative appended below the original quest text
+• Colony-aware context for generated backstory
 
-RimAI.Quests is a RimAI domain module. It does not replace original quest info; it appends rich, emotional narratives. RimAI.Quests не замінює оригінальний текст завдання, а додає наративне доповнення.
+Requirements: Harmony and RimAI.Communication. Configure the shared RimAI provider; this module does not own a second gameplay credential.
 
-它为那些机械的资源请求提供了背景：为什么他需要这 2 个医药？他经历了什么？他正在为何而挣扎？ It provides context for mechanical requests: Why does he need these 2x medicines? What has he been through? What is he fighting for?
-
-[hr][/hr]
-
-[h3]核心功能 | Key Features[/h3]
-
-[list] [*] [b]Shared text AI | Спільний текстовий ШІ[/b] Uses the shared RimAI gameplay text-AI configuration. Використовує спільну конфігурацію текстового ШІ RimAI.
-
-[*] [b]深度 Prompt 继承 | Prompt Inheritance[/b] 插件会智能结合并复用你在 RimTalk 里的全局 Prompt 设置，生成风格统一的扩展文本。 Seamlessly integrates and reuses your existing RimTalk prompt settings to ensure a consistent narrative style.
-
-[*] [b]叙事补全系统 | Narrative Extension[/b] 在保持原版任务参数完整性的基础上，动态追加具有文学深度的背景故事。 Dynamically appends deep, literary backstories while keeping original quest parameters intact.
-
-[*] [b]语境感知 | Context-Aware[/b] 追加内容会结合你殖民地的现状与环境，生成逻辑自洽且极具代入感的独白。 The appended content adapts to your colony's state, generating logically consistent and immersive monologues. [/list]
-
-[hr][/hr]
-
-[h3]使用说明 | Requirements &amp; Usage[/h3]
-
-[list] [*] 必须安装 [b][url=https://github.com/juicycleff/RimTalk]RimTalk[/url][/b] 并且已配置有效的 API 密钥。 [*] [b]无需额外设置：[/b] 安装后，插件将自动使用你在 RimTalk 中选择的模型（Gemini, OpenAI 等）。 [*] [b]流式生成：[/b] 任务扩展内容将通过流式传输在任务栏下方实时显现。 [/list]
-
-[hr][/hr]
-
-[h3]常见问题 | FAQ[/h3]
-
-[b]为什么我的任务描述没有变化？ / Why are my quest descriptions unchanged?[/b] 本模组仅在原描述后“追加”内容。请确保 RimTalk 配置正确，生成可能需要几秒钟，随后文字会流式出现在任务栏下方。 This mod only "appends" content. Ensure RimTalk is configured correctly; text will stream in below the original description after a few seconds.
-
-[hr][/hr]
-
-[h3]版权与许可 | Attribution &amp; License[/h3]
-
-[list] [] 本模组是基于 [b]juicy[/b] 开发的 [b]RimTalk[/b] 的衍生作品，遵循 CC BY-NC-SA 4.0 协议。 [] 原版 RimTalk: [url=https://github.com/juicycleff/RimTalk]https://github.com/juicycleff/RimTalk[/url] [*] 许可协议: [url=https://creativecommons.org/licenses/by-nc-sa/4.0/]CC BY-NC-SA 4.0 International[/url] [/list]
-
-[i]“每一个请求背后，都曾是一个鲜活的人。”[/i] [i]"Behind every request, there was once a living soul."[/i]
-	</description>
+Attribution: derived from Laurence042 / RimTalk---Quests work under CC BY-NC-SA 4.0. The live product name is RimAI.Quests.</description>
 	<supportedVersions>
 		<li>1.6</li>
 	</supportedVersions>
@@ -65,6 +34,5 @@ RimAI.Quests is a RimAI domain module. It does not replace original quest info; 
 		<li>ustas.rimai.communication</li>
 	</loadAfter>
 	<incompatibleWith>
-		<!-- Add any incompatible mods here -->
 	</incompatibleWith>
 </ModMetaData>
