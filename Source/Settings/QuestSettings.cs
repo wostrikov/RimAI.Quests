@@ -5,7 +5,6 @@ namespace Ustas.RimAI.Quests;
 public class QuestSettings : ModSettings
 {
     public bool enableAIDescriptions = true;
-    public bool verboseDebugLogging = false;
     public bool cleanThinkTagsDuringStreaming = false;
     public string customQuestInstruction = "";
 
@@ -14,7 +13,6 @@ public class QuestSettings : ModSettings
         return new QuestSettingsModel
         {
             EnableAIDescriptions = enableAIDescriptions,
-            VerboseDebugLogging = verboseDebugLogging,
             CleanThinkTagsDuringStreaming = cleanThinkTagsDuringStreaming,
             CustomQuestInstruction = customQuestInstruction ?? ""
         };
@@ -25,7 +23,6 @@ public class QuestSettings : ModSettings
         if (model == null)
             return;
         enableAIDescriptions = model.EnableAIDescriptions;
-        verboseDebugLogging = model.VerboseDebugLogging;
         cleanThinkTagsDuringStreaming = model.CleanThinkTagsDuringStreaming;
         customQuestInstruction = model.CustomQuestInstruction ?? "";
     }
@@ -34,7 +31,6 @@ public class QuestSettings : ModSettings
     {
         base.ExposeData();
         Scribe_Values.Look(ref enableAIDescriptions, "enableAIDescriptions", true);
-        Scribe_Values.Look(ref verboseDebugLogging, "verboseDebugLogging", false);
         Scribe_Values.Look(
             ref cleanThinkTagsDuringStreaming,
             "cleanThinkTagsDuringStreaming",

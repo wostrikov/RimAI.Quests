@@ -370,7 +370,7 @@ namespace Ustas.RimAI.Quests.Services
 
             var streamingClient = StreamingClientFactory.Create(client);
 
-            if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
+            if (Prefs.DevMode)
             {
                 RimAiLog.Info(RimAiLogCategory.Quests, "[RimAI.Quests] Starting plain text streaming API call...");
                 RimAiLog.Info(RimAiLogCategory.Quests, 
@@ -386,7 +386,7 @@ namespace Ustas.RimAI.Quests.Services
                 {
                     chunkCount++;
 
-                    if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
+                    if (Prefs.DevMode)
                     {
                         RimAiLog.Info(RimAiLogCategory.Quests, 
                             $"[RimAI.Quests] Chunk #{chunkCount} received: [{chunk?.Length ?? 0} chars] '{chunk}'"
@@ -403,7 +403,7 @@ namespace Ustas.RimAI.Quests.Services
 
                         ApplyStreamingDisplay(quest, originalDescription, displayContent);
 
-                        if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
+                        if (Prefs.DevMode)
                         {
                             RimAiLog.Info(RimAiLogCategory.Quests, 
                                 $"[RimAI.Quests] Updated quest.description (display chars: {displayContent.Length}, raw chars: {postProcessor.GetRawText().Length})"
@@ -413,7 +413,7 @@ namespace Ustas.RimAI.Quests.Services
                 }
             );
 
-            if (RimTalkQuestsMod.Settings.verboseDebugLogging && Prefs.DevMode)
+            if (Prefs.DevMode)
             {
                 RimAiLog.Info(RimAiLogCategory.Quests, 
                     $"[RimAI.Quests] Streaming completed. Total chunks: {chunkCount}, Final raw length: {postProcessor.GetRawText().Length}"

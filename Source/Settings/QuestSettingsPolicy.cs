@@ -60,7 +60,6 @@ public static class QuestSettingsPolicy
         {
             var defaults = QuestSettingsModel.Default();
             next.EnableAIDescriptions = defaults.EnableAIDescriptions;
-            next.VerboseDebugLogging = defaults.VerboseDebugLogging;
             next.CleanThinkTagsDuringStreaming = defaults.CleanThinkTagsDuringStreaming;
         }
 

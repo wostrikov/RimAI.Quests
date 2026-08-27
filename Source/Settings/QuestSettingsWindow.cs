@@ -77,15 +77,6 @@ public static class QuestSettingsWindow
                 "Ustas.RimAI.Quests.Settings.EnableAIDescriptions.Desc".Translate());
         }
 
-        if (QuestSettingsCatalog.IsFieldVisible(QuestSettingsCatalog.FieldVerbose, search))
-        {
-            any = true;
-            listing.CheckboxLabeled(
-                "Ustas.RimAI.Quests.Settings.VerboseDebugLogging".Translate(),
-                ref settings.verboseDebugLogging,
-                "Ustas.RimAI.Quests.Settings.VerboseDebugLogging.Desc".Translate());
-        }
-
         if (QuestSettingsCatalog.IsFieldVisible(QuestSettingsCatalog.FieldThinkTags, search))
         {
             any = true;

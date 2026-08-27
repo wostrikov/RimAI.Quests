@@ -10,7 +10,6 @@ public sealed class QuestSettingsPolicyTests
     {
         var model = QuestSettingsModel.Default();
         Assert.True(model.EnableAIDescriptions);
-        Assert.False(model.VerboseDebugLogging);
         Assert.False(model.CleanThinkTagsDuringStreaming);
         Assert.Equal("", model.CustomQuestInstruction);
     }
@@ -67,7 +66,6 @@ public sealed class QuestSettingsPolicyTests
         var current = new QuestSettingsModel
         {
             EnableAIDescriptions = false,
-            VerboseDebugLogging = true,
             CleanThinkTagsDuringStreaming = true,
             CustomQuestInstruction = "custom"
         };
@@ -75,7 +73,6 @@ public sealed class QuestSettingsPolicyTests
             current,
             SettingsResetRequest.Page(QuestSettingsCatalog.GeneralPage));
         Assert.True(page.EnableAIDescriptions);
-        Assert.False(page.VerboseDebugLogging);
         Assert.False(page.CleanThinkTagsDuringStreaming);
         Assert.Equal("custom", page.CustomQuestInstruction);
         Assert.False(current.EnableAIDescriptions);
@@ -94,12 +91,10 @@ public sealed class QuestSettingsPolicyTests
         var current = new QuestSettingsModel
         {
             EnableAIDescriptions = false,
-            VerboseDebugLogging = true,
             CustomQuestInstruction = "custom"
         };
         var next = QuestSettingsPolicy.ApplyReset(current, SettingsResetRequest.All());
         Assert.True(next.EnableAIDescriptions);
-        Assert.False(next.VerboseDebugLogging);
         Assert.Equal("", next.CustomQuestInstruction);
         Assert.False(current.EnableAIDescriptions);
         Assert.Equal("custom", current.CustomQuestInstruction);
