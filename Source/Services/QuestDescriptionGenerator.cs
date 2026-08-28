@@ -13,6 +13,7 @@ using Ustas.RimAI.Quests.Policy;
 using Ustas.RimAI.Quests.Services.Streaming;
 using Verse;
 using Ustas.RimAI.Core.Diagnostics;
+using RimAI.Core.Runtime;
 
 namespace Ustas.RimAI.Quests.Services
 {
@@ -32,7 +33,16 @@ namespace Ustas.RimAI.Quests.Services
         /// <summary>
         /// Generates an AI-powered description for a quest asynchronously
         /// </summary>
-        public static async void GenerateQuestDescriptionAsync(Quest quest)
+        public static void GenerateQuestDescriptionAsync(Quest quest)
+        {
+            // Fire-and-forget by contract, but routed through the gate so that
+            // quitting knows about it. An async void is neither awaitable nor
+            // counted, and work still running while the runtime is torn down is
+            // what K034 is about.
+            RimAiBackground.Run(() => GenerateAsync(quest));
+        }
+
+        private static async Task GenerateAsync(Quest quest)
         {
             try
             {
