@@ -12,6 +12,7 @@ using Ustas.RimAI.Quests.Util;
 using Ustas.RimAI.Core.AI;
 using Verse;
 using Ustas.RimAI.Core.Diagnostics;
+using RimAI.Core.Runtime;
 
 namespace Ustas.RimAI.Quests.Services.Streaming
 {
@@ -57,7 +58,7 @@ namespace Ustas.RimAI.Quests.Services.Streaming
             string jsonContent = BuildRequestJson(instruction, messages, model, stream: true);
 
             var chunk = SafeChunkCallback(onTextChunkReceived);
-            var shared = await Task.Run(() => SharedTextAiOrchestrator.Stream(new TextAiRequest
+            var shared = await RimAiBackground.Run(() => SharedTextAiOrchestrator.Stream(new TextAiRequest
             {
                 PrebuiltJson = jsonContent,
                 BaseUrl = endpointUrl,
