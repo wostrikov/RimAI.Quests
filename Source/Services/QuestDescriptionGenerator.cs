@@ -35,14 +35,29 @@ namespace Ustas.RimAI.Quests.Services
         /// </summary>
         public static void GenerateQuestDescriptionAsync(Quest quest)
         {
+            // The scene is read here, on the main thread, and carried into the
+            // background work as text.
+            //
+            // Everything below this line runs on a thread-pool thread - the
+            // whole of GenerateAsync does, from its first statement, because
+            // RimAiBackground.Run hands the delegate straight over. Reading the
+            // map from there is not merely unwise: `mapPawns` hands out pooled
+            // lists and 1.6 throws rather than let a background thread hold one,
+            // which is exactly what it did - "Accessing map pawns off main
+            // thread - this is never allowed due to list pooling".
+            //
+            // The scene is the only part of the prompt that touches the map, so
+            // it is the only part that has to be gathered before the hand-off.
+            string scene = FormatSceneContext();
+
             // Fire-and-forget by contract, but routed through the gate so that
             // quitting knows about it. An async void is neither awaitable nor
             // counted, and work still running while the runtime is torn down is
             // what K034 is about.
-            RimAiBackground.Run(() => GenerateAsync(quest));
+            RimAiBackground.Run(() => GenerateAsync(quest, scene));
         }
 
-        private static async Task GenerateAsync(Quest quest)
+        private static async Task GenerateAsync(Quest quest, string scene)
         {
             try
             {
@@ -77,7 +92,7 @@ namespace Ustas.RimAI.Quests.Services
                 }
 
                 // Build the prompt
-                string prompt = BuildQuestPrompt(quest);
+                string prompt = BuildQuestPrompt(quest, scene);
                 string instruction = BuildSystemInstruction();
 
                 if (Prefs.DevMode)
@@ -150,7 +165,7 @@ namespace Ustas.RimAI.Quests.Services
         /// <summary>
         /// Builds the prompt for AI quest description generation
         /// </summary>
-        private static string BuildQuestPrompt(Quest quest)
+        private static string BuildQuestPrompt(Quest quest, string scene)
         {
             return QuestContextBundlePolicy.Assemble(new QuestContextBundle
             {
@@ -159,7 +174,7 @@ namespace Ustas.RimAI.Quests.Services
                 Type = quest.root?.defName,
                 Challenge = quest.challengeRating > 0 ? quest.challengeRating.ToString() : null,
                 RewardsBlock = FormatQuestRewards(quest),
-                SceneBlock = FormatSceneContext(),
+                SceneBlock = scene,
                 FactionsBlock = FormatFactionContext(quest)
             });
         }
