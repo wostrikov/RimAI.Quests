@@ -44,6 +44,7 @@ namespace Ustas.RimAI.Quests.Patches
                 // Generate AI description when quest is first added
                 // This happens before player sees it, so description will be ready
                 Services.QuestDescriptionGenerator.GenerateQuestDescriptionAsync(__instance);
+                Services.QuestTextTranslator.TranslateIfNeeded(__instance);
             }
             catch (Exception ex)
             {

@@ -379,6 +379,18 @@ namespace Ustas.RimAI.Quests.Services
             }
         }
 
+        /// <summary>
+        /// One model call with an instruction of the caller's own.
+        ///
+        /// The quest translator needs the same client, the same post-processing
+        /// and the same failure behaviour as a description, and none of the
+        /// prompt-building around it - so this is the call without the prompt.
+        /// </summary>
+        internal static Task<string> TranslateAsync(string instruction, string text, Quest quest)
+        {
+            return CallRimTalkAI(instruction, text, quest);
+        }
+
         private static async Task<string> CallRimTalkAI(
             string instruction,
             string prompt,
