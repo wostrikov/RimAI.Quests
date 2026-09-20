@@ -35,8 +35,8 @@ namespace Ustas.RimAI.Quests.Services
         /// </summary>
         public static void GenerateQuestDescriptionAsync(Quest quest)
         {
-            // The scene is read here, on the main thread, and carried into the
-            // background work as text.
+            // Every part of the prompt that touches the map is read here, on
+            // the main thread, and carried into the background work as text.
             //
             // Everything below this line runs on a thread-pool thread - the
             // whole of GenerateAsync does, from its first statement, because
@@ -46,18 +46,26 @@ namespace Ustas.RimAI.Quests.Services
             // which is exactly what it did - "Accessing map pawns off main
             // thread - this is never allowed due to list pooling".
             //
-            // The scene is the only part of the prompt that touches the map, so
-            // it is the only part that has to be gathered before the hand-off.
+            // This used to say the scene was the only such part. It was not: a
+            // pawn reward's own description ends at
+            // PawnRelationUtility.GetMostImportantColonyRelative, which walks
+            // every map's pawns to find whose brother is being offered, and the
+            // same exception came back through Reward_Pawn.GetDescription. The
+            // rewards and the factions are gathered here for the same reason -
+            // "which part reads the world" is the question, and the answer is
+            // not always where the pawns are visible in the call.
             string scene = FormatSceneContext();
+            string rewards = FormatQuestRewards(quest);
+            string factions = FormatFactionContext(quest);
 
             // Fire-and-forget by contract, but routed through the gate so that
             // quitting knows about it. An async void is neither awaitable nor
             // counted, and work still running while the runtime is torn down is
             // what K034 is about.
-            RimAiBackground.Run(() => GenerateAsync(quest, scene));
+            RimAiBackground.Run(() => GenerateAsync(quest, scene, rewards, factions));
         }
 
-        private static async Task GenerateAsync(Quest quest, string scene)
+        private static async Task GenerateAsync(Quest quest, string scene, string rewards, string factions)
         {
             try
             {
@@ -92,7 +100,7 @@ namespace Ustas.RimAI.Quests.Services
                 }
 
                 // Build the prompt
-                string prompt = BuildQuestPrompt(quest, scene);
+                string prompt = BuildQuestPrompt(quest, scene, rewards, factions);
                 string instruction = BuildSystemInstruction();
 
                 if (Prefs.DevMode)
@@ -165,7 +173,7 @@ namespace Ustas.RimAI.Quests.Services
         /// <summary>
         /// Builds the prompt for AI quest description generation
         /// </summary>
-        private static string BuildQuestPrompt(Quest quest, string scene)
+        private static string BuildQuestPrompt(Quest quest, string scene, string rewards, string factions)
         {
             return QuestContextBundlePolicy.Assemble(new QuestContextBundle
             {
@@ -173,9 +181,9 @@ namespace Ustas.RimAI.Quests.Services
                 Description = quest.description.ToString(),
                 Type = quest.root?.defName,
                 Challenge = quest.challengeRating > 0 ? quest.challengeRating.ToString() : null,
-                RewardsBlock = FormatQuestRewards(quest),
+                RewardsBlock = rewards,
                 SceneBlock = scene,
-                FactionsBlock = FormatFactionContext(quest)
+                FactionsBlock = factions
             });
         }
 
