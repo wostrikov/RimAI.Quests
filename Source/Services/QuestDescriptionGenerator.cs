@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -92,7 +92,7 @@ namespace Ustas.RimAI.Quests.Services
 
                 _processingQuests.Add(questId);
 
-                if (Prefs.DevMode)
+                if (RimAiLog.Detailed)
                 {
                     RimAiLog.Info(RimAiLogCategory.Quests, 
                         $"[RimAI.Quests] Generating AI description for quest: {quest.name}"
@@ -103,7 +103,7 @@ namespace Ustas.RimAI.Quests.Services
                 string prompt = BuildQuestPrompt(quest, scene, rewards, factions);
                 string instruction = BuildSystemInstruction();
 
-                if (Prefs.DevMode)
+                if (RimAiLog.Detailed)
                 {
                     var config = Ustas.RimAI.Communication.Settings.Get().GetActiveConfig();
                     var model = config?.SelectedModel ?? "Unknown";
@@ -117,7 +117,7 @@ namespace Ustas.RimAI.Quests.Services
 
                 var result = await CallRimTalkAI(instruction, prompt, quest);
 
-                if (Prefs.DevMode && result != null)
+                if (RimAiLog.Detailed && result != null)
                 {
                     RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] AI Response (processed):\n{result}");
                 }
@@ -127,14 +127,14 @@ namespace Ustas.RimAI.Quests.Services
                 if (result != null)
                 {
                     _results.Store(questId, result);
-                    if (Prefs.DevMode)
+                    if (RimAiLog.Detailed)
                         RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] Successfully enhanced quest: {quest.name}");
                 }
                 else
                 {
                     quest.description = new TaggedString(QuestAppendPolicy.Restore(originalDescription));
 
-                    if (Prefs.DevMode)
+                    if (RimAiLog.Detailed)
                     {
                         RimAiLog.Warning(RimAiLogCategory.Quests, 
                             $"[RimAI.Quests] Failed to generate enhancement for quest: {quest.name}"
@@ -415,7 +415,7 @@ namespace Ustas.RimAI.Quests.Services
 
             var streamingClient = StreamingClientFactory.Create(client);
 
-            if (Prefs.DevMode)
+            if (RimAiLog.Detailed)
             {
                 RimAiLog.Info(RimAiLogCategory.Quests, "[RimAI.Quests] Starting plain text streaming API call...");
                 RimAiLog.Info(RimAiLogCategory.Quests, 
@@ -431,7 +431,7 @@ namespace Ustas.RimAI.Quests.Services
                 {
                     chunkCount++;
 
-                    if (Prefs.DevMode)
+                    if (RimAiLog.Detailed)
                     {
                         RimAiLog.Info(RimAiLogCategory.Quests, 
                             $"[RimAI.Quests] Chunk #{chunkCount} received: [{chunk?.Length ?? 0} chars] '{chunk}'"
@@ -448,7 +448,7 @@ namespace Ustas.RimAI.Quests.Services
 
                         ApplyStreamingDisplay(quest, originalDescription, displayContent);
 
-                        if (Prefs.DevMode)
+                        if (RimAiLog.Detailed)
                         {
                             RimAiLog.Info(RimAiLogCategory.Quests, 
                                 $"[RimAI.Quests] Updated quest.description (display chars: {displayContent.Length}, raw chars: {postProcessor.GetRawText().Length})"
@@ -458,7 +458,7 @@ namespace Ustas.RimAI.Quests.Services
                 }
             );
 
-            if (Prefs.DevMode)
+            if (RimAiLog.Detailed)
             {
                 RimAiLog.Info(RimAiLogCategory.Quests, 
                     $"[RimAI.Quests] Streaming completed. Total chunks: {chunkCount}, Final raw length: {postProcessor.GetRawText().Length}"
@@ -484,7 +484,7 @@ namespace Ustas.RimAI.Quests.Services
                 return null;
             }
 
-            if (Prefs.DevMode)
+            if (RimAiLog.Detailed)
             {
                 RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] AI Response (raw):\n{finalRawText}");
             }

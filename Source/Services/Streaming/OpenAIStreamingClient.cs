@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -148,7 +148,7 @@ namespace Ustas.RimAI.Quests.Services.Streaming
                 throw new InvalidOperationException("Endpoint URL is missing");
             }
 
-            if (Prefs.DevMode)
+            if (RimAiLog.Detailed)
             {
                 RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] Request URL: {endpointUrl}");
             }

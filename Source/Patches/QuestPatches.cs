@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.QuestGen;
@@ -34,7 +34,7 @@ namespace Ustas.RimAI.Quests.Patches
 
                 if (!Services.QuestDescriptionGenerator.IsAIServiceAvailable())
                 {
-                    if (Prefs.DevMode)
+                    if (RimAiLog.Detailed)
                         RimAiLog.Warning(RimAiLogCategory.Quests, 
                             "[RimAI.Quests] AI service not available. Make sure RimTalk is configured with an API key."
                         );

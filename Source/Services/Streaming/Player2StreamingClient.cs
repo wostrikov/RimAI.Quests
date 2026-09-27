@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ustas.RimAI.Communication;
@@ -120,7 +120,7 @@ namespace Ustas.RimAI.Quests.Services.Streaming
             bool isLocal
         )
         {
-            if (Prefs.DevMode)
+            if (RimAiLog.Detailed)
             {
                 RimAiLog.Info(RimAiLogCategory.Quests, 
                     $"[RimAI.Quests] Request URL ({(isLocal ? "local" : "remote")}): {url}"
