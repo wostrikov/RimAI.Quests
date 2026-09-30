@@ -57,15 +57,16 @@ namespace Ustas.RimAI.Quests.Services
             string scene = FormatSceneContext();
             string rewards = FormatQuestRewards(quest);
             string factions = FormatFactionContext(quest);
+            string original = quest?.description.ToString();
 
             // Fire-and-forget by contract, but routed through the gate so that
             // quitting knows about it. An async void is neither awaitable nor
             // counted, and work still running while the runtime is torn down is
             // what K034 is about.
-            RimAiBackground.Run(() => GenerateAsync(quest, scene, rewards, factions));
+            RimAiBackground.Run(() => GenerateAsync(quest, original, scene, rewards, factions));
         }
 
-        private static async Task GenerateAsync(Quest quest, string scene, string rewards, string factions)
+        private static async Task GenerateAsync(Quest quest, string originalDescription, string scene, string rewards, string factions)
         {
             try
             {
@@ -81,9 +82,7 @@ namespace Ustas.RimAI.Quests.Services
 
                 if (decision.UseCached)
                 {
-                    string current = quest.description.ToString();
-                    if (current.IndexOf(cachedEnhancement, StringComparison.Ordinal) < 0)
-                        ApplyStreamingDisplay(quest, current, cachedEnhancement);
+                    RunOnMainThread(() => ApplyDescription(quest, originalDescription, cachedEnhancement));
                     return;
                 }
 
@@ -112,9 +111,6 @@ namespace Ustas.RimAI.Quests.Services
                     RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] Prompt:\n{prompt}");
                 }
 
-                // Store original description
-                var originalDescription = quest.description.ToString();
-
                 var result = await CallRimTalkAI(instruction, prompt, quest);
 
                 if (RimAiLog.Detailed && result != null)
@@ -122,18 +118,19 @@ namespace Ustas.RimAI.Quests.Services
                     RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] AI Response (processed):\n{result}");
                 }
 
-                // Streaming already updated the description in real-time
-                // The result is just for logging/verification
-                if (result != null)
+                // The description is written once, whole, when the answer is
+                // in: a narrative that replaces the original must not show the
+                // player half a sentence where the quest used to be. Until then
+                // the original stands, so a failure has nothing to restore.
+                if (!string.IsNullOrWhiteSpace(result))
                 {
                     _results.Store(questId, result);
+                    RunOnMainThread(() => ApplyDescription(quest, originalDescription, result));
                     if (RimAiLog.Detailed)
                         RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] Successfully enhanced quest: {quest.name}");
                 }
                 else
                 {
-                    quest.description = new TaggedString(QuestAppendPolicy.Restore(originalDescription));
-
                     if (RimAiLog.Detailed)
                     {
                         RimAiLog.Warning(RimAiLogCategory.Quests, 
@@ -410,7 +407,6 @@ namespace Ustas.RimAI.Quests.Services
             var messages = new List<(Role, string)> { (Role.User, prompt) };
 
             var postProcessor = new ThinkReasoningPostProcessor();
-            var originalDescription = quest.description.ToString();
             bool cleanDuringStreaming = RimTalkQuestsMod.Settings.cleanThinkTagsDuringStreaming;
 
             var streamingClient = StreamingClientFactory.Create(client);
@@ -441,19 +437,6 @@ namespace Ustas.RimAI.Quests.Services
                     if (!string.IsNullOrEmpty(chunk))
                     {
                         postProcessor.AppendChunk(chunk);
-
-                        var displayContent = cleanDuringStreaming
-                            ? postProcessor.GetProcessedText()
-                            : postProcessor.GetRawText();
-
-                        ApplyStreamingDisplay(quest, originalDescription, displayContent);
-
-                        if (RimAiLog.Detailed)
-                        {
-                            RimAiLog.Info(RimAiLogCategory.Quests, 
-                                $"[RimAI.Quests] Updated quest.description (display chars: {displayContent.Length}, raw chars: {postProcessor.GetRawText().Length})"
-                            );
-                        }
                     }
                 }
             );
@@ -489,22 +472,30 @@ namespace Ustas.RimAI.Quests.Services
                 RimAiLog.Info(RimAiLogCategory.Quests, $"[RimAI.Quests] AI Response (raw):\n{finalRawText}");
             }
 
-            var finalProcessedText = postProcessor.ProcessFinal(finalRawText);
-            ApplyStreamingDisplay(quest, originalDescription, finalProcessedText);
-
-            return finalProcessedText;
+            return postProcessor.ProcessFinal(finalRawText);
         }
 
         /// <summary>
-        /// Authoritative streaming UI write. Each chunk recomposes from the
-        /// original description plus the accumulated enhancement.
+        /// Authoritative description write, on the main thread only: the
+        /// narrative in the original's place, or the original when there is
+        /// no narrative.
         /// </summary>
-        public static void ApplyStreamingDisplay(Quest quest, string originalDescription, string displayContent)
+        public static void ApplyDescription(Quest quest, string originalDescription, string enhancement)
         {
             if (quest == null)
                 return;
             quest.description = new TaggedString(
-                QuestAppendPolicy.Compose(originalDescription, displayContent));
+                QuestDescriptionPolicy.Compose(originalDescription, enhancement));
+        }
+
+        /// <summary>
+        /// Quest text is game state and the answer arrives on a pool thread,
+        /// so the write is handed to the tracker's tick. Without a game there
+        /// is no quest to write to.
+        /// </summary>
+        private static void RunOnMainThread(Action action)
+        {
+            QuestTextTranslationTracker.Current?.RunOnMainThread(action);
         }
 
         /// <summary>

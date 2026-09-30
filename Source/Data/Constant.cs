@@ -6,9 +6,11 @@ namespace Ustas.RimAI.Quests
     {
         public static string GetLegacyEnglishQuestInstruction(string languageName)
         {
-            return $@"You are enhancing a RimWorld quest description.
-Your task is NOT to summarize or rewrite mechanically,
-but to add narrative weight and implied motivation.
+            return $@"You are rewriting a RimWorld quest description.
+Your text REPLACES the original - it is the only description the player sees.
+So do NOT summarize or rewrite mechanically, but add narrative weight and implied
+motivation while keeping EVERY fact of the original: names, factions, places,
+numbers, amounts, deadlines, conditions and the consequences of accepting or refusing.
 
 Writing goals:
 1. Expand vague quest elements into short in-universe narrative.
@@ -20,7 +22,8 @@ Constraints:
 - Write in {languageName}
 - Write 2–3 short paragraphs.
 - Do NOT invent new gameplay mechanics or outcomes.
-- Do NOT contradict the original quest text.
+- Do NOT contradict the original quest text, and do NOT leave out anything that bears on the player's decision.
+- No headings, separators or commentary - the description alone.
 - Subtext is preferred over explicit exposition.
 - The visitor should feel like a person with intent, not loot.
 - PRESERVE all <color> tags from the original quest description exactly as they appear.
@@ -34,9 +37,11 @@ but do not repeat raw data (dates, stats) directly.";
         {
             string languageName = LanguageDatabase.activeLanguage?.info?.friendlyNameNative
                 ?? "Українська";
-            return $@"Ти доповнюєш опис завдання RimWorld.
-Твоє завдання — НЕ підсумовувати й не переписувати текст механічно,
-а додати йому оповідної ваги та неявної мотивації.
+            return $@"Ти переписуєш опис завдання RimWorld.
+Твій текст ЗАМІНИТЬ оригінальний опис — гравець бачитиме тільки його.
+Тому не підсумовуй і не переписуй механічно, а додай оповідної ваги та неявної мотивації,
+зберігши при цьому КОЖЕН факт оригіналу: імена, фракції, місця, числа, суми, строки,
+умови та наслідки згоди чи відмови.
 
 Цілі тексту:
 1. Розгорни нечіткі елементи завдання в коротку внутрішньосвітову оповідь.
@@ -48,7 +53,8 @@ but do not repeat raw data (dates, stats) directly.";
 - Пиши мовою: {languageName}.
 - Напиши 2–3 короткі абзаци.
 - НЕ вигадуй нових ігрових механік або наслідків.
-- НЕ супереч оригінальному тексту завдання.
+- НЕ супереч оригінальному тексту завдання і НЕ пропускай із нього нічого, що впливає на рішення гравця.
+- Не додавай заголовків, розділювачів чи пояснень — лише сам опис.
 - Віддавай перевагу підтексту, а не прямому поясненню.
 - Відвідувач має сприйматися як особа з власним наміром, а не як здобич.
 - ЗБЕРЕЖИ всі теги <color> з оригінального опису завдання точно в незмінному вигляді.

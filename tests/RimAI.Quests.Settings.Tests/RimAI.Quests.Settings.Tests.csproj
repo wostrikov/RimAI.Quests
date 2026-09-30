@@ -21,7 +21,7 @@
     <Compile Include="..\..\Source\Settings\QuestSettingsLegacy.cs" Link="Settings\QuestSettingsLegacy.cs" />
     <Compile Include="..\..\Source\Settings\QuestSettingsModel.cs" Link="Settings\QuestSettingsModel.cs" />
     <Compile Include="..\..\Source\Settings\QuestSettingsPolicy.cs" Link="Settings\QuestSettingsPolicy.cs" />
-    <Compile Include="..\..\Source\Policy\QuestAppendPolicy.cs" Link="Policy\QuestAppendPolicy.cs" />
+    <Compile Include="..\..\Source\Policy\QuestDescriptionPolicy.cs" Link="Policy\QuestDescriptionPolicy.cs" />
     <Compile Include="..\..\Source\Policy\QuestContextBundlePolicy.cs" Link="Policy\QuestContextBundlePolicy.cs" />
     <Compile Include="..\..\Source\Policy\QuestResponseSanitizePolicy.cs" Link="Policy\QuestResponseSanitizePolicy.cs" />
     <Compile Include="..\..\Source\Policy\QuestRateLimitCachePolicy.cs" Link="Policy\QuestRateLimitCachePolicy.cs" />

@@ -25,11 +25,10 @@ namespace Ustas.RimAI.Quests.Services
     /// is. So this translates it rather than regenerating it, once per quest,
     /// and remembers that it has.
     ///
-    /// What it will not do is rewrite the quest. The mechanical description is
-    /// the contract the player accepts on, and QuestAppendPolicy exists to
-    /// keep our prose out of it; a translation is the same description in
-    /// another language, so it is checked for the markup and the paragraphs
-    /// the game wrote and refused if either moved.
+    /// What it will not do is rewrite the quest - that is the description
+    /// generator's job. A translation is the same description in another
+    /// language, so it is checked for the markup and the paragraphs the game
+    /// wrote and refused if either moved.
     /// </summary>
     public static class QuestTextTranslator
     {
@@ -68,7 +67,7 @@ namespace Ustas.RimAI.Quests.Services
             bool cyrillic = language.folderName.StartsWith("Ukrainian", StringComparison.Ordinal)
                 || language.folderName.StartsWith("Russian", StringComparison.Ordinal);
 
-            string original = QuestAppendPolicy.Restore(quest.description);
+            string original = quest.description.ToString();
             if (!QuestTextLanguagePolicy.NeedsTranslation(original, cyrillic))
             {
                 // Already in the player's language, or a language this cannot
@@ -127,28 +126,21 @@ namespace Ustas.RimAI.Quests.Services
                 return;
             }
 
-            // Recomposed rather than assigned: an AI description may already be
-            // appended under the separator, and it is not what was translated.
-            string enhancement = Enhancement(quest.description);
-            quest.description = new TaggedString(
-                QuestAppendPolicy.Compose(translated, enhancement));
+            // A new quest is also handed to the description generator, whose
+            // narrative takes the original's place and is written in the
+            // player's language already. If it got there first, the text this
+            // translated is gone, and writing the translation would put the
+            // original back over the narrative.
+            if (!string.Equals(quest.description.ToString(), original, StringComparison.Ordinal))
+            {
+                tracker.Remember(questId);
+                return;
+            }
+
+            quest.description = new TaggedString(translated);
             tracker.Remember(questId);
             RimAiLog.Debug(RimAiLogCategory.Quests,
                 "[RimAI.Quests] Quest " + questId + " translated into the active language.");
-        }
-
-        /// <summary>Whatever sits under the separator, which is ours and stays.</summary>
-        private static string Enhancement(string description)
-        {
-            if (description == null)
-            {
-                return string.Empty;
-            }
-
-            int separator = description.IndexOf(QuestAppendPolicy.Separator, StringComparison.Ordinal);
-            return separator < 0
-                ? string.Empty
-                : description.Substring(separator + QuestAppendPolicy.Separator.Length).Trim();
         }
     }
 }

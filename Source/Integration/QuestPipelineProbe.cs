@@ -9,8 +9,8 @@ using Verse;
 namespace Ustas.RimAI.Quests.Integration;
 
 /// <summary>
-/// Deterministic TestDriver fixture for quest-panel streaming writes.
-/// Injects chunks through <see cref="QuestDescriptionGenerator.ApplyStreamingDisplay"/>
+/// Deterministic TestDriver fixture for quest-panel description writes.
+/// Injects narratives through <see cref="QuestDescriptionGenerator.ApplyDescription"/>
 /// and does not call a paid provider.
 /// </summary>
 public static class QuestPipelineProbe
@@ -50,27 +50,26 @@ public static class QuestPipelineProbe
         string original = quest.description.ToString();
         var samples = new List<TestDriverJsonWriter>();
         var chunks = new[] { "Alpha ", "Alpha Beta ", "Alpha Beta Gamma" };
-        int previous = original.Length;
+        int previous = 0;
         bool grew = true;
-        bool originalPreserved = true;
+        bool replaced = true;
         string firstError = null;
 
         try
         {
             for (int i = 0; i < chunks.Length; i++)
             {
-                QuestDescriptionGenerator.ApplyStreamingDisplay(quest, original, chunks[i]);
+                QuestDescriptionGenerator.ApplyDescription(quest, original, chunks[i]);
                 string now = quest.description.ToString();
                 bool chunkGrew = now.Length > previous;
-                bool preserved = now.StartsWith(original, StringComparison.Ordinal)
-                    && now.IndexOf(QuestAppendPolicy.Separator, StringComparison.Ordinal) >= original.Length;
+                bool chunkReplaced = now == QuestDescriptionPolicy.Compose(original, chunks[i]);
                 grew = grew && chunkGrew;
-                originalPreserved = originalPreserved && preserved;
+                replaced = replaced && chunkReplaced;
                 samples.Add(new TestDriverJsonWriter()
                     .Integer("index", i)
                     .Integer("length", now.Length)
                     .Flag("grew", chunkGrew)
-                    .Flag("originalPreserved", preserved));
+                    .Flag("replaced", chunkReplaced));
                 previous = now.Length;
             }
 
@@ -100,7 +99,7 @@ public static class QuestPipelineProbe
             .Integer("originalLength", original.Length)
             .Integer("chunkCount", chunks.Length)
             .Flag("descriptionGrew", grew)
-            .Flag("originalPreserved", originalPreserved)
+            .Flag("descriptionReplaced", replaced)
             .Flag("questTabOpen", Find.MainTabsRoot?.OpenTab?.defName == "Quests")
             .Flag("createdTemporaryQuest", created)
             .Flag("restored", created || quest.description.ToString() == original)
