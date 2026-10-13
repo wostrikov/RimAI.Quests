@@ -1,3 +1,4 @@
+#nullable enable
 using System.Text;
 
 namespace Ustas.RimAI.Quests.Policy

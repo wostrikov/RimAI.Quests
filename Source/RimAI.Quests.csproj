@@ -1,10 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    RimWorld 1.7 and nothing older. 1.7 is not a Unity player: it runs on
+    .NET 10, its assemblies sit in the game folder itself, and one assembly -
+    UnityStubs - stands in for everything that was UnityEngine.*Module.dll.
+    So this is net10.0 and compiles against that stand-in, which turns a
+    Unity member 1.7 does not have into a compile error here instead of a
+    type that fails to load there. The 1.6 build is the tag
+    rimworld-1.6-final.
+  -->
 
     <PropertyGroup>
-        <GameVersion Condition=" '$(GameVersion)' == '' ">1.6</GameVersion>
+        <GameVersion Condition=" '$(GameVersion)' == '' ">1.7</GameVersion>
         <OutputType>Library</OutputType>
-        <TargetFramework>net48</TargetFramework>
-        <PlatformTarget>x64</PlatformTarget>
+        <TargetFramework>net10.0</TargetFramework>
+        <!-- The game loads a mod assembly from the mod's own folder: no deps
+             file beside it. A package this mod ships has to reach the output. -->
+        <GenerateDependencyFile>false</GenerateDependencyFile>
+        <GenerateRuntimeConfigurationFiles>false</GenerateRuntimeConfigurationFiles>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <PlatformTarget>AnyCPU</PlatformTarget>
         <RootNamespace>Ustas.RimAI.Quests</RootNamespace>
         <AssemblyName>RimAI.Quests</AssemblyName>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -41,7 +55,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Lib.Harmony.Ref" Version="2.*" PrivateAssets="All"/>
+        <PackageReference Include="Lib.Harmony" Version="3.0.0-rc.2" ExcludeAssets="runtime" PrivateAssets="All" />
         <ProjectReference Include="..\..\RimAI.Core\src\RimAI.Core\RimAI.Core.csproj">
             <Private>false</Private>
         </ProjectReference>
@@ -62,17 +76,13 @@
     <!-- Reference actual game assemblies when UseLocalDlls is enabled -->
     <ItemGroup Condition=" '$(UseLocalDlls)' == 'true' AND '$(RimWorldDir)' != '' ">
         <Reference Include="Assembly-CSharp">
-            <HintPath Condition=" '$(OS)' == 'Windows_NT' ">$(RimWorldDir)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
-            <HintPath Condition=" '$(OS)' != 'Windows_NT' ">$(RimWorldDir)/RimWorldMac.app/Contents/Resources/Data/Managed/Assembly-CSharp.dll</HintPath>
+            <HintPath>$(RimWorldDir)\Assembly-CSharp.dll</HintPath>
             <Private>false</Private>
         </Reference>
+        <Reference Include="UnityStubs"><HintPath>$(RimWorldDir)\UnityStubs.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Waylith"><HintPath>$(RimWorldDir)\Waylith.dll</HintPath><Private>false</Private></Reference>
 
-        <_UnityAssemblies Include="$(RimWorldDir)\RimWorldWin64_Data\Managed\UnityEngine*.dll" Condition=" '$(OS)' == 'Windows_NT' " />
-        <_UnityAssemblies Include="$(RimWorldDir)/RimWorldMac.app/Contents/Resources/Data/Managed/UnityEngine*.dll" Condition=" '$(OS)' != 'Windows_NT' " />
 
-        <Reference Include="@(_UnityAssemblies)">
-            <Private>false</Private>
-        </Reference>
     </ItemGroup>
 
     <!-- Exclude ref directory from compilation -->

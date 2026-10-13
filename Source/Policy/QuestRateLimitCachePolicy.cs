@@ -1,3 +1,4 @@
+#nullable disable
 using System.Collections.Generic;
 
 namespace Ustas.RimAI.Quests.Policy
